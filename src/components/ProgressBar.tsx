@@ -3,14 +3,22 @@
 import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import NProgress from 'nprogress';
+import { useNProgress } from '@/hooks/useNProgress';
 
 export default function ProgressBar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  
+  // Initialize the custom hook
+  useNProgress();
 
   useEffect(() => {
     // Complete progress when route changes
-    NProgress.done();
+    const timer = setTimeout(() => {
+      NProgress.done();
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, [pathname, searchParams]);
 
   useEffect(() => {
@@ -19,9 +27,10 @@ export default function ProgressBar() {
       showSpinner: false,
       speed: 500,
       minimum: 0.1,
+      trickleSpeed: 200,
     });
 
-    // Handle link clicks
+    // Handle link clicks for external links or manual navigation
     const handleLinkClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const link = target.closest('a');
@@ -38,8 +47,11 @@ export default function ProgressBar() {
     };
 
     // Handle form submissions
-    const handleFormSubmit = () => {
-      NProgress.start();
+    const handleFormSubmit = (e: Event) => {
+      const form = e.target as HTMLFormElement;
+      if (form && form.method !== 'get') {
+        NProgress.start();
+      }
     };
 
     // Add event listeners
@@ -50,7 +62,6 @@ export default function ProgressBar() {
     return () => {
       document.removeEventListener('click', handleLinkClick);
       document.removeEventListener('submit', handleFormSubmit);
-      NProgress.done();
     };
   }, []);
 

@@ -2,10 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import AuthLayout from "@/app/layouts/AuthLayout";
 import AccountTypeStep from "./AccountTypeStep";
 import PersonalInfoStep from "./PersonalInfoStep";
-import ConfirmationStep from "./ConfirmationStep";
 import Logo from "@/components/ui/Logo";
 import Link from "next/link";
 
@@ -18,7 +16,7 @@ export default function RegisterPage() {
     // Redirect to account-type if no step parameter or invalid step
     if (
       !step ||
-      !["account-type", "personal-info", "confirmation"].includes(step)
+      !["account-type", "personal-info"].includes(step)
     ) {
       router.replace("/register?step=account-type");
     }
@@ -40,8 +38,6 @@ export default function RegisterPage() {
         return <AccountTypeStep />;
       case "personal-info":
         return <PersonalInfoStep />;
-      case "confirmation":
-        return <ConfirmationStep />;
       default:
         return <AccountTypeStep />;
     }
@@ -59,18 +55,15 @@ export default function RegisterPage() {
       </div>
 
       {/* Privacy Policy at the very bottom */}
-
-      {step !== "confirmation" && (
-        <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center pb-4">
-          <p className="text-sm pt-8 max-w-sm mx-auto text-gray-600 font-sans">
-            By logging In, you acknowledge that you have read and agree to the
-            company{" "}
-            <Link href="/privacy-policy" className="text-black underline">
-              Privacy policy.
-            </Link>
-          </p>
-        </div>
-      )}
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center pb-4">
+        <p className="text-sm pt-8 max-w-sm mx-auto text-gray-600 font-sans">
+          By logging In, you acknowledge that you have read and agree to the
+          company{" "}
+          <Link href="/privacy-policy" className="text-black underline">
+            Privacy policy.
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

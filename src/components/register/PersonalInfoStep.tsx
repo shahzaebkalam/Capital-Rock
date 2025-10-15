@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -8,6 +8,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import Checkbox from '@/components/ui/Checkbox';
+import SuccessModal from '@/components/ui/SuccessModal';
 import { MailIcon, PhoneIcon } from '@/lib/icons';
 
 interface FormValues {
@@ -51,6 +52,7 @@ const countries = [
 
 export default function PersonalInfoStep() {
   const router = useRouter();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleSubmit = (values: FormValues) => {
     // Store the personal info in localStorage
@@ -59,14 +61,31 @@ export default function PersonalInfoStep() {
       ...existingData,
       ...values,
     }));
-    router.push('/register?step=confirmation');
+    // Show success modal instead of navigating to next step
+    setShowSuccessModal(true);
+    
+    // Auto-redirect to login page after 3 seconds
+    setTimeout(() => {
+      router.push('/login');
+    }, 3000);
   };
 
   const handleBack = () => {
     router.push('/register?step=account-type');
   };
 
+  const handleSuccessModalClose = () => {
+    router.push('/login');
+    setShowSuccessModal(false);
+  };
+
+  const handleGoToInbox = () => {
+    setShowSuccessModal(false);
+    router.push('/inbox');
+  };
+
   return (
+    <>
     <div className="w-full">
       <div className="text-center mb-6 sm:mb-8">
         <h1 className="text-2xl sm:text-5xl font-display text-gray-900 mb-2">
@@ -187,8 +206,16 @@ export default function PersonalInfoStep() {
           </Form>
         )}
       </Formik>
-
-    
     </div>
+
+    {/* Success Modal */}
+    <SuccessModal
+      isOpen={showSuccessModal}
+      onClose={handleSuccessModalClose}
+      title="Account created. Check your inbox to verify"
+      buttonText="Go to Inbox"
+      onButtonClick={handleGoToInbox}
+    />
+    </>
   );
 }

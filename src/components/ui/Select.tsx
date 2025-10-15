@@ -42,7 +42,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             ))}
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <DownArrowIcon className="w-4 h-4 text-gray-400" />
+            <DownArrowIcon />
           </div>
         </div>
         {error && (
