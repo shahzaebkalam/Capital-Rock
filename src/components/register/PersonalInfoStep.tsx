@@ -69,7 +69,7 @@ export default function PersonalInfoStep() {
   return (
     <div className="w-full">
       <div className="text-center mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-5xl font-display text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-5xl font-display text-gray-900 mb-2">
           Personal information
         </h1>
       </div>
@@ -90,7 +90,7 @@ export default function PersonalInfoStep() {
         onSubmit={handleSubmit}
       >
         {({ errors, touched, values, setFieldValue }) => (
-          <Form className="space-y-6 mt-4">
+          <Form className="space-y-6 mt-4 max-w-sm mx-auto">
             <Field
               as={Input}
               name="fullName"

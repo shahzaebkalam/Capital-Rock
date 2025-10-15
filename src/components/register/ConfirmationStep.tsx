@@ -15,7 +15,7 @@ export default function ConfirmationStep() {
   return (
     <div className="w-full flex flex-col justify-start items-center flex-1 pt-16 sm:pt-20">
       <div className="text-center mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-5xl font-display text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-5xl font-display text-gray-900 mb-2">
           Account created. Check your inbox to verify
         </h1>
       </div>

@@ -62,7 +62,7 @@ export default function RegisterPage() {
 
       {step !== "confirmation" && (
         <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl text-center pb-4">
-          <p className="text-sm w-2/5 mx-auto text-gray-600 font-sans">
+          <p className="text-sm pt-8 max-w-sm mx-auto text-gray-600 font-sans">
             By logging In, you acknowledge that you have read and agree to the
             company{" "}
             <Link href="/privacy-policy" className="text-black underline">

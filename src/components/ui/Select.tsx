@@ -15,24 +15,28 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, error, options, placeholder, ...props }, ref) => {
+  ({ className, label, error, options, placeholder, value, ...props }, ref) => {
+    const isPlaceholder = !value || value === '';
+    
     return (
       <div className="w-full">
         <div className="relative">
           <select
             className={cn(
               'flex h-10 w-full rounded-lg border border-gray-300 bg-background-light px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 appearance-none pr-10',
+              isPlaceholder ? 'text-gray-400' : 'text-gray-900',
               error && 'border-error-500 focus:ring-error-500',
               className
             )}
             ref={ref}
+            value={value}
             {...props}
           >
-            <option value="" disabled>
+            <option value="" disabled className="text-gray-400">
               {label || placeholder}
             </option>
             {options.map((option) => (
-              <option key={option.value} value={option.value}>
+              <option key={option.value} value={option.value} className="text-gray-900">
                 {option.label}
               </option>
             ))}

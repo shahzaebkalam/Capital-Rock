@@ -37,7 +37,7 @@ export default function AccountTypeStep() {
   return (
     <div className="w-full">
       <div className="text-center mb-6 sm:mb-8">
-        <h1 className="text-xl sm:text-5xl font-display text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-5xl font-display text-gray-900 mb-2">
           Create your Capitalrock account
         </h1>
       </div>
@@ -48,7 +48,7 @@ export default function AccountTypeStep() {
         onSubmit={handleSubmit}
       >
         {({ values, errors, touched }) => (
-          <Form className="space-y-6 sm:w-2/5 mx-auto">
+          <Form className="space-y-6 max-w-sm mx-auto">
             <div>
               <h2 className="text-base font-sans font-normal text-gray-900 mb-4 text-start">
                 Choose your account type
