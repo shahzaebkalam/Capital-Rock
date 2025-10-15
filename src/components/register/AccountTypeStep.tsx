@@ -4,7 +4,6 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Logo from '@/components/ui/Logo';
 import Button from '@/components/ui/Button';
 import Radio from '@/components/ui/Radio';
 
@@ -36,9 +35,8 @@ export default function AccountTypeStep() {
   };
 
   return (
-    <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto">
+    <div className="w-full">
       <div className="text-center mb-6 sm:mb-8">
-        <Logo className="mb-4 sm:mb-6" />
         <h1 className="text-xl sm:text-5xl font-display text-gray-900 mb-2">
           Create your Capitalrock account
         </h1>
@@ -74,7 +72,7 @@ export default function AccountTypeStep() {
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6 pt-4">
               <Button type="submit" className="w-full" variant="primary" size="md">
                 Continue
               </Button>

@@ -4,7 +4,6 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import Logo from '@/components/ui/Logo';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
@@ -68,11 +67,10 @@ export default function PersonalInfoStep() {
   };
 
   return (
-    <div className="w-full max-w-[400px] mx-auto">
+    <div className="w-full">
       <div className="text-center mb-6 sm:mb-8">
-        <Logo className="mb-4 sm:mb-6" />
         <h1 className="text-xl sm:text-5xl font-display text-gray-900 mb-2">
-          Personal information=
+          Personal information
         </h1>
       </div>
 
@@ -92,7 +90,7 @@ export default function PersonalInfoStep() {
         onSubmit={handleSubmit}
       >
         {({ errors, touched, values, setFieldValue }) => (
-          <Form className="space-y-4">
+          <Form className="space-y-6 mt-4">
             <Field
               as={Input}
               name="fullName"
@@ -171,7 +169,7 @@ export default function PersonalInfoStep() {
               />
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6 pt-4">
               <Button type="submit" className="w-full">
                 Create Account
               </Button>
@@ -190,14 +188,7 @@ export default function PersonalInfoStep() {
         )}
       </Formik>
 
-      <div className="mt-8 text-center">
-        <p className="text-xs text-gray-500">
-          By logging in, you acknowledge that you have read and agree to the company{' '}
-          <a href="#" className="text-gray-700 underline hover:text-gray-900">
-            Privacy policy
-          </a>
-        </p>
-      </div>
+    
     </div>
   );
 }
