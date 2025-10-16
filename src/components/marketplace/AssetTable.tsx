@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { MoreVerticalIcon, OceanAssetIcon, SolarAssetIcon } from '@/lib/icons';
+import NoDataFound from '@/components/ui/NoDataFound';
 
 interface AssetTableProps {
   currentPage: number;
@@ -247,6 +249,10 @@ const AssetGrid = ({ assets, selectedAssets, onSelectAsset, onSelectAll }: {
   const allSelected = assets.length > 0 && assets.every(asset => selectedAssets.has(asset.id));
   const someSelected = assets.some(asset => selectedAssets.has(asset.id));
 
+  if (assets.length === 0) {
+    return <NoDataFound title="No assets found" description="Try adjusting your search or filter criteria." />;
+  }
+
   return (
     <div className="space-y-4">
       {/* Grid Header with Select All */}
@@ -289,7 +295,9 @@ const AssetGrid = ({ assets, selectedAssets, onSelectAsset, onSelectAll }: {
 
             {/* Asset Info */}
             <div className="space-y-2">
-              <h3 className="font-semibold text-gray-900 text-sm">{asset.name}</h3>
+              <Link href={`/marketplace/${asset.id}`} className="block">
+                <h3 className="font-semibold text-gray-900 text-sm hover:text-blue-600 transition-colors cursor-pointer">{asset.name}</h3>
+              </Link>
               <p className="text-xs text-gray-600">{asset.issuer}</p>
               <p className="text-xs text-gray-500">{asset.type}</p>
             </div>
@@ -402,6 +410,10 @@ export default function AssetTable({ currentPage, searchQuery, filters, viewMode
     const allSelected = paginatedAssets.length > 0 && paginatedAssets.every(asset => selectedAssets.has(asset.id));
     const someSelected = paginatedAssets.some(asset => selectedAssets.has(asset.id));
 
+    if (paginatedAssets.length === 0) {
+      return <NoDataFound title="No assets found" description="Try adjusting your search or filter criteria." />;
+    }
+
     return (
       <div className="bg-white rounded-lg border border-stroke overflow-hidden">
         <div className="overflow-x-auto">
@@ -445,7 +457,9 @@ export default function AssetTable({ currentPage, searchQuery, filters, viewMode
                   <td className="px-4 py-4">
                     <div className="flex items-center">
                       {asset.icon}
-                      <span className="ml-3 text-sm font-medium text-gray-900">{asset.name}</span>
+                      <Link href={`/marketplace/${asset.id}`} className="ml-3 text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors cursor-pointer">
+                        {asset.name}
+                      </Link>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-sm text-gray-900">{asset.issuer}</td>

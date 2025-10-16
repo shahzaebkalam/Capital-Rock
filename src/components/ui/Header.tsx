@@ -26,12 +26,12 @@ export default function Header({
       {/* Mobile Layout */}
       <div className="lg:hidden">
         {/* Top Row - Menu Button + Welcome + Avatar */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between mb-3 min-w-0">
+          <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
             {/* Mobile Menu Button */}
             <button
               onClick={onMenuClick}
-              className="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="p-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary flex-shrink-0"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -39,15 +39,15 @@ export default function Header({
             </button>
             
             {/* Welcome Message */}
-            <div className="flex flex-col">
-              <h1 className="text-lg font-semibold text-black font-sans">
+            <div className="flex flex-col min-w-0 flex-1">
+              <h1 className="text-sm sm:text-lg font-semibold text-black font-sans truncate">
                 Welcome back, {userName}
               </h1>
             </div>
           </div>
 
           {/* Avatar */}
-          <div className="relative">
+          <div className="relative flex-shrink-0">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center gap-2 focus:outline-none focus:ring-offset-2 rounded-full"
@@ -89,19 +89,19 @@ export default function Header({
         </div>
 
         {/* Bottom Row - Status Pills */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto">
           {/* KYC Status */}
-          <div className="flex items-center bg-background-light border border-stroke rounded-md px-3 py-2">
-            <span className="text-sm text-black mr-2 font-sans">KYC:</span>
+          <div className="flex items-center bg-background-light border border-stroke rounded-md px-2 py-2 min-w-0 flex-shrink-0">
+            <span className="text-xs text-black mr-1 font-sans">KYC:</span>
             <VerifiedIcon />
-            <span className="text-sm text-black ml-2 font-sans">Verified</span>
+            <span className="text-xs text-black ml-1 font-sans">Verified</span>
           </div>
 
           {/* Wallet Address */}
-          <div className="flex items-center bg-background-light border border-stroke rounded-md px-3 py-2">
-            <span className="text-sm text-black mr-2 font-sans">Wallet:</span>
-            <WalletIcon />
-            <span className="text-sm text-black ml-2 font-sans">{walletAddress}</span>
+          <div className="flex items-center bg-background-light border border-stroke rounded-md px-2 py-2 min-w-0 flex-shrink-0">
+            <span className="text-xs text-black mr-1 font-sans">Wallet:</span>
+            <WalletIcon className="text-[#3676E3]" />
+            <span className="text-xs text-black ml-1 font-sans truncate max-w-20">{walletAddress}</span>
           </div>
         </div>
       </div>
@@ -130,7 +130,7 @@ export default function Header({
           {/* Wallet Address */}
           <div className="flex items-center bg-background-light border border-stroke rounded-md px-3 py-2">
             <span className="text-sm text-black mr-2 font-sans">Wallet:</span>
-            <WalletIcon />
+            <WalletIcon className="text-[#3676E3]" />
             <span className="text-sm text-black ml-2 font-sans">{walletAddress}</span>
           </div>
 

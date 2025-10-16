@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Logo from './Logo';
 import { 
@@ -44,8 +44,22 @@ interface SidebarProps {
 
 export default function Sidebar({ isMobileOpen = false, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const isActive = (href: string) => {
+    // For marketplace, check if pathname starts with the href
+    if (href === '/marketplace') {
+      return pathname.startsWith('/marketplace');
+    }
+    // For exchange, check if pathname starts with the href
+    if (href === '/exchange') {
+      return pathname.startsWith('/exchange');
+    }
+    // For settings, check if pathname starts with the href
+    if (href === '/settings') {
+      return pathname.startsWith('/settings');
+    }
+    // For other routes, use exact match
     return pathname === href;
   };
 
@@ -67,7 +81,7 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
       `}>
         <div className="flex flex-col h-full">
           {/* Logo Section */}
-          <div className="flex items-center justify-center py-3">
+          <div className="flex items-center justify-center py-3 cursor-pointer" onClick={() => router.push('/')}>
             <Logo width={60} height={60} />
           </div>
 

@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import Logo from './Logo';
 import { XIcon } from '@/lib/icons';
+import Button from './Button';
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -10,6 +11,13 @@ interface SuccessModalProps {
   title: string;
   buttonText: string;
   onButtonClick: () => void;
+  // Optional second button props
+  secondaryButtonText?: string;
+  onSecondaryButtonClick?: () => void;
+  secondaryButtonIcon?: React.ReactNode;
+  // Optional message content
+  message?: string;
+  details?: string;
 }
 
 export default function SuccessModal({
@@ -17,7 +25,12 @@ export default function SuccessModal({
   onClose,
   title,
   buttonText,
-  onButtonClick
+  onButtonClick,
+  secondaryButtonText,
+  onSecondaryButtonClick,
+  secondaryButtonIcon,
+  message,
+  details
 }: SuccessModalProps) {
   useEffect(() => {
     if (isOpen) {
@@ -52,24 +65,49 @@ export default function SuccessModal({
       <div className="flex-1 flex flex-col items-center justify-center px-4">
         {/* Logo */}
         <div className="flex justify-center mb-6">
-          <Logo width={60} height={60} />
+          <Logo width={120} height={120} />
         </div>
 
         {/* Success Message */}
         <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-5xl font-display text-gray-900 mb-4">
+          <h2 className="text-2xl sm:text-5xl font-display text-secondary-black mb-4">
             {title}
           </h2>
+          {message && (
+            <p className="text-lg text-gray-800 mb-2 font-sans">
+              {message}
+            </p>
+          )}
+          {details && (
+            <p className="text-lg text-gray-800 font-sans">
+              {details}
+            </p>
+          )}
         </div>
 
-        {/* Action Button */}
-        <div className="flex justify-center">
-          <button
+        {/* Action Buttons */}
+        <div className={`flex flex-col space-y-4 ${(message || details) ? 'w-full max-w-2xl' : 'items-center'}`}>
+          {/* Primary Button */}
+          <Button
             onClick={onButtonClick}
-            className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-shade transition-colors"
+            variant="primary"
+            size="md"
+            className={(message || details) ? 'w-full' : ''}
           >
             {buttonText}
-          </button>
+          </Button>
+          
+          {/* Secondary Button (if provided) */}
+          {secondaryButtonText && onSecondaryButtonClick && (
+            <Button
+              onClick={onSecondaryButtonClick}
+              variant="secondary"
+              size="md"
+              className={(message || details) ? 'w-full' : ''}
+            >
+              {secondaryButtonText} {secondaryButtonIcon && <span className="ml-2">{secondaryButtonIcon}</span>}
+            </Button>
+          )}
         </div>
       </div>
     </div>

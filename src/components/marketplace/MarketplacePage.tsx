@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import SearchAndFilters from "./SearchAndFilters";
 import AssetTable from "./AssetTable";
 import Pagination from "@/components/ui/Pagination";
-import { GridIcon, ListIcon } from "@/lib/icons";
+import { ViewToggle } from "@/components/searchbar";
 
 export default function MarketplacePage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,30 +56,10 @@ export default function MarketplacePage() {
         <h1 className="text-2xl font-semibold text-black">
           Marketplace
         </h1>
-        
-        {/* View Toggle */}
-        <div className="flex items-center bg-white rounded-lg p-0.5 border border-gray-200">
-          <button
-            onClick={() => setViewMode("grid")}
-            className={`p-1.5 rounded-md transition-colors ${
-              viewMode === "grid"
-                ? "bg-black text-white"
-                : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <GridIcon className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => setViewMode("list")}
-            className={`p-1.5 rounded-md transition-colors ${
-              viewMode === "list"
-                ? "bg-black text-white"
-                : "text-gray-400 hover:text-gray-600"
-            }`}
-          >
-            <ListIcon className="w-4 h-4" />
-          </button>
-        </div>
+        <ViewToggle
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
       </div>
 
       {/* Search and Filters Row */}
@@ -104,13 +84,15 @@ export default function MarketplacePage() {
           onTotalPagesChange={setTotalPages}
         />
         {/* Pagination */}
-        <div className="flex justify-center pt-4">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        </div>
+        {totalPages > 0 && (
+          <div className="flex justify-center pt-4">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

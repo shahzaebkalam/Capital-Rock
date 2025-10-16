@@ -7,7 +7,7 @@ import Image from 'next/image';
 interface AvatarProps {
   src?: string;
   alt?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   className?: string;
   fallback?: string;
 }
@@ -17,6 +17,7 @@ const sizeClasses = {
   md: 'w-10 h-10 text-sm',
   lg: 'w-12 h-12 text-base',
   xl: 'w-16 h-16 text-lg',
+  xxl: 'w-24 h-24 text-2xl',
 };
 
 const sizeValues = {
@@ -24,6 +25,7 @@ const sizeValues = {
   md: { width: 40, height: 40 },
   lg: { width: 48, height: 48 },
   xl: { width: 64, height: 64 },
+  xxl: { width: 100, height: 100 },
 };
 
 export default function Avatar({ 
