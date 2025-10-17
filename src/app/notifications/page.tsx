@@ -1,5 +1,5 @@
 import MainLayout from '@/app/layouts/MainLayout';
-import NotificationsPage from '@/components/notification/NotificationsPage';
+import NotificationsPage from '@/components/notifications/NotificationsPage';
 
 export default function NotificationRoute() {
   return (

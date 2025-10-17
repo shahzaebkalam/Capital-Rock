@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@types/nprogress": "^0.2.3",
+    "@types/qrcode": "^1.5.5",
     "@types/yup": "^0.29.14",
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
@@ -17,6 +18,7 @@
     "klinecharts": "^10.0.0-alpha5",
     "next": "14.2.33",
     "nprogress": "^0.2.0",
+    "qrcode": "^1.5.4",
     "react": "^18",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^18",

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { RightArrowIcon } from '@/lib/icons';
 import Link from 'next/link';
 
@@ -12,38 +12,120 @@ interface SettingsItem {
 }
 
 export default function SettingsPage() {
-  const settingsItems: SettingsItem[] = [
-    {
-      id: 'profile',
-      title: 'Profile Info',
-      description: 'Name, email, phone, nationality, investor type',
-      href: '/settings/profile'
-    },
-    {
-      id: 'wallet',
-      title: 'Wallet',
-      description: 'Connected accounts, wallets, whitelist status, add/remove accounts',
-      href: '/settings/wallet'
-    },
-    {
-      id: 'security',
-      title: 'Security',
-      description: '2FA, password change',
-      href: '/settings/security'
-    },
-    {
-      id: 'notifications',
-      title: 'Notifications preferences',
-      description: 'Turn on / off notifications',
-      href: '/settings/notifications'
-    },
-    {
-      id: 'compliance',
-      title: 'Compliance',
-      description: 'KYC status, uploaded docs, jurisdiction info',
-      href: '/settings/compliance'
+  const [userType, setUserType] = useState<string | null>(null);
+
+  useEffect(() => {
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('userType') : null;
+    setUserType(stored ?? 'individual');
+  }, []);
+
+  const settingsItems: SettingsItem[] = (() => {
+    switch (userType) {
+      case 'issuer':
+        // Issuer (image 2)
+        return [
+          {
+            id: 'profile',
+            title: 'Profile Info',
+            description: 'Name, email, phone, nationality, investor type',
+            href: '/settings/profile',
+          },
+          {
+            id: 'security',
+            title: 'Security',
+            description: '2FA, password change',
+            href: '/settings/security',
+          },
+          {
+            id: 'notifications',
+            title: 'Notifications preferences',
+            description: 'Turn on / off notifications',
+            href: '/settings/notifications',
+          },
+          {
+            id: 'compliance',
+            title: 'Compliance',
+            description: 'KYC status, uploaded docs, jurisdiction info',
+            href: '/settings/compliance',
+          },
+        ];
+      case 'institution':
+        // Institution (image 3)
+        return [
+          {
+            id: 'general',
+            title: 'General Settings',
+            description: 'Platform Name, Logo, Support Email, Timezone',
+            href: '/settings/profile', // maps to existing page
+          },
+          {
+            id: 'roles',
+            title: 'Roles & Permissions',
+            description: 'Create/Edit roles with access levels',
+            href: '/settings/security', // placeholder route
+          },
+          {
+            id: 'wallet-config',
+            title: 'Wallet & Payment Config',
+            description: 'Whitelisted wallets, payout settings',
+            href: '/settings/wallet',
+          },
+          {
+            id: 'compliance',
+            title: 'Compliance',
+            description: 'KYC provider integration keys, AML API setup',
+            href: '/settings/compliance',
+          },
+          {
+            id: 'notification-settings',
+            title: 'Notification Settings',
+            description: 'Email templates, frequency, system triggers',
+            href: '/settings/notifications',
+          },
+          {
+            id: 'security',
+            title: 'Security',
+            description: '2FA, Access Logs, Admin Session Timeout',
+            href: '/settings/security',
+          },
+        ];
+      case 'individual':
+      default:
+        // Individual (image 1)
+        return [
+          {
+            id: 'profile',
+            title: 'Profile Info',
+            description: 'Name, email, phone, nationality, investor type',
+            href: '/settings/profile',
+          },
+          {
+            id: 'security',
+            title: 'Security',
+            description: '2FA, password change',
+            href: '/settings/security',
+          },
+          {
+            id: 'wallet',
+            title: 'Linked bank accounts / wallets / payout info',
+            description: 'Connected accounts, wallets, whitelist status, add/remove accounts',
+            href: '/settings/wallet',
+          },
+          {
+            id: 'notifications',
+            title: 'Notifications preferences',
+            description: 'Turn on / off notifications',
+            href: '/settings/notifications',
+          },
+          {
+            id: 'compliance',
+            title: 'Compliance',
+            description: 'KYC status, uploaded docs, jurisdiction info',
+            href: '/settings/compliance',
+          },
+        ];
     }
-  ];
+  })();
 
   return (
     <div className="">

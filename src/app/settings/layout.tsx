@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 import { DownArrowIcon, RightArrowIcon } from "@/lib/icons";
 import Link from "next/link";
@@ -10,20 +10,48 @@ interface SettingsLayoutProps {
   children: React.ReactNode;
 }
 
-const settingsTabs = [
-  { id: "profile", label: "Profile Info", href: "/settings/profile" },
-  { id: "wallet", label: "Wallet", href: "/settings/wallet" },
-  { id: "security", label: "Security", href: "/settings/security" },
-  {
-    id: "notifications",
-    label: "Notifications",
-    href: "/settings/notifications",
-  },
-  { id: "compliance", label: "Compliance", href: "/settings/compliance" },
-];
+type Tab = { id: string; label: string; href: string };
+
+const getTabsForUserType = (userType: string | null): Tab[] => {
+  switch (userType) {
+    case 'issuer':
+      return [
+        { id: 'profile', label: 'Profile Info', href: '/settings/profile' },
+        { id: 'security', label: 'Security', href: '/settings/security' },
+        { id: 'notifications', label: 'Notifications', href: '/settings/notifications' },
+        { id: 'compliance', label: 'Compliance', href: '/settings/compliance' },
+      ];
+    case 'institution':
+      return [
+        { id: 'general', label: 'General Settings', href: '/settings/profile' },
+        { id: 'roles', label: 'Roles & Permissions', href: '/settings/security' },
+        { id: 'wallet-config', label: 'Wallet & Payment Config', href: '/settings/wallet' },
+        { id: 'compliance', label: 'Compliance', href: '/settings/compliance' },
+        { id: 'notification-settings', label: 'Notification Settings', href: '/settings/notifications' },
+        { id: 'security', label: 'Security', href: '/settings/security' },
+      ];
+    case 'individual':
+    default:
+      return [
+        { id: 'profile', label: 'Profile Info', href: '/settings/profile' },
+        { id: 'security', label: 'Security', href: '/settings/security' },
+        { id: 'wallet', label: 'Wallet', href: '/settings/wallet' },
+        { id: 'notifications', label: 'Notifications', href: '/settings/notifications' },
+        { id: 'compliance', label: 'Compliance', href: '/settings/compliance' },
+      ];
+  }
+};
 
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
   const pathname = usePathname();
+  const [userType, setUserType] = useState<string | null>(null);
+
+  useEffect(() => {
+    const stored = typeof window !== 'undefined' ? localStorage.getItem('userType') : null;
+    setUserType(stored ?? 'individual');
+  }, []);
+
+  const settingsTabs: Tab[] = useMemo(() => getTabsForUserType(userType), [userType]);
   const isMainSettingsPage = pathname === "/settings";
 
   if (isMainSettingsPage) {

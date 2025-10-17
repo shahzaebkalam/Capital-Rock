@@ -73,7 +73,7 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
     { name: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
     { name: 'Asset Management', href: '/asset-management', icon: PortfolioIcon },
     { name: 'User Management', href: '/user-management', icon: InvestorsIcon },
-    { name: 'KYC / Compliance Management', href: '/kyc-compliance-management', icon: KYCIcon },
+    { name: 'KYC / Compliance Management', href: '/kyc-management', icon: KYCIcon },
     { name: 'Transactions & Payments', href: '/transactions-payments', icon: TransactionsIcon },
     { name: 'Distributions Management', href: '/distributions-management', icon: DistributionsIcon },
     { name: 'Reports & Analytics', href: '/reports-analytics', icon: ReportsIcon },

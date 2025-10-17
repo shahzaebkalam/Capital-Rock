@@ -148,6 +148,9 @@ export default function PersonalInfoStep() {
               name="country"
               label="Country"
               options={countries}
+              placeholder="Select country"
+              value={values.country}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFieldValue('country', e.target.value)}
               error={errors.country && touched.country ? errors.country : undefined}
             />
 
