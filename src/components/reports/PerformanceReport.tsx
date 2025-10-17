@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ArcElement } from 'chart.js';
+import React, { useMemo, useState } from 'react';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ArcElement, Plugin, ChartOptions } from 'chart.js';
 import { Line, Pie } from 'react-chartjs-2';
 import { DownloadIcon, TrendingUpIcon } from '@/lib/icons';
 import RiskExposureTable from './RiskExposureTable';
+import PieChartCard from '../dashboard-ui/PieChartCard';
+import AreaChartCard from '../dashboard-ui/AreaChartCard';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler, ArcElement);
@@ -12,34 +14,87 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 export default function PerformanceReport() {
   const [activeTimeframe, setActiveTimeframe] = useState<'W' | 'M' | 'Q' | 'Y'>('W');
 
-  // ROI Line chart data
-  const roiChartData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    datasets: [
-      {
-        label: 'ROI',
-        data: [2.5, 3.2, 4.1, 3.8, 4.5, 5.2, 4.9],
-        borderColor: '#B58833',
-        backgroundColor: (context: any) => {
-          const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-          gradient.addColorStop(0, 'rgba(181, 136, 51, 0.8)');
-          gradient.addColorStop(1, 'rgba(181, 136, 51, 0.1)');
-          return gradient;
-        },
-        borderWidth: 3,
-        fill: true,
-        tension: 0,
-        pointBackgroundColor: '#B58833',
-        pointBorderColor: '#B58833',
-        pointBorderWidth: 2,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-      },
-    ],
+  // ROI Line chart data (by timeframe)
+  type Series = { labels: string[]; data: number[]; highlightLabel: string };
+
+  const ROI_SERIES: Record<'W' | 'M' | 'Q' | 'Y', Series> = {
+    W: {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: [0, 1.8, 1.4, 1.4, 2.2, 2.2, 4.0],
+      highlightLabel: 'Sat',
+    },
+    M: {
+      labels: ['W1', 'W2', 'W3', 'W4'],
+      data: [0.5, 1.2, 2.2, 3.1],
+      highlightLabel: 'W3',
+    },
+    Q: {
+      labels: ['Jan', 'Feb', 'Mar'],
+      data: [0.8, 2.2, 2.3],
+      highlightLabel: 'Feb',
+    },
+    Y: {
+      labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+      data: [0.6, 1.5, 2.1, 3.6],
+      highlightLabel: 'Q3',
+    },
   };
 
-  const roiChartOptions = {
+  const activeSeries: Series = useMemo(() => ROI_SERIES[activeTimeframe], [activeTimeframe]);
+
+  const highlightedIndex = useMemo(
+    () => activeSeries.labels.indexOf(activeSeries.highlightLabel),
+    [activeSeries]
+  );
+
+  const roiChartData = useMemo(
+    () => ({
+      labels: activeSeries.labels,
+      datasets: [
+        {
+          label: 'ROI',
+          data: activeSeries.data,
+          borderColor: '#B58833',
+          backgroundColor: (context: any) => {
+            const ctx = context.chart.ctx;
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(181, 136, 51, 0.8)');
+            gradient.addColorStop(1, 'rgba(181, 136, 51, 0.1)');
+            return gradient;
+          },
+          borderWidth: 3,
+          fill: true,
+          tension: 0.1,
+          pointBackgroundColor: (ctx: any) => (ctx.dataIndex === highlightedIndex ? '#FFFFFF' : '#B58833'),
+          pointBorderColor: (ctx: any) => '#B58833',
+          pointBorderWidth: (ctx: any) => (ctx.dataIndex === highlightedIndex ? 2 : 0),
+          pointRadius: (ctx: any) => (ctx.dataIndex === highlightedIndex ? 5 : 0),
+          pointHoverRadius: (ctx: any) => (ctx.dataIndex === highlightedIndex ? 7 : 0),
+        },
+      ],
+    }),
+    [activeSeries, highlightedIndex]
+  );
+
+  const verticalGuidePlugin: Plugin<'line'> = useMemo(() => ({
+    id: 'reportsRoiVerticalGuide',
+    afterDatasetsDraw(chart) {
+      const { ctx, chartArea, scales } = chart;
+      const xScale = scales.x as any;
+      const x = xScale.getPixelForValue(highlightedIndex);
+      ctx.save();
+      ctx.strokeStyle = '#B58833';
+      ctx.globalAlpha = 0.35;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x, chartArea.top);
+      ctx.lineTo(x, chartArea.bottom);
+      ctx.stroke();
+      ctx.restore();
+    },
+  }), [highlightedIndex]);
+
+  const roiChartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -48,6 +103,9 @@ export default function PerformanceReport() {
       },
       tooltip: {
         enabled: true,
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        titleColor: '#FFFFFF',
+        bodyColor: '#FFFFFF',
         callbacks: {
           label: function(context: any) {
             return `${context.parsed.y}%`;
@@ -95,11 +153,10 @@ export default function PerformanceReport() {
     },
     elements: {
       point: {
-        backgroundColor: '#B58833',
-        borderColor: '#B58833',
         borderWidth: 2,
       },
     },
+    interaction: { mode: 'index', intersect: false },
   };
 
   // Asset allocation pie chart data
@@ -184,13 +241,13 @@ export default function PerformanceReport() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white border border-stroke rounded-lg p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-600">IRR</span>
+            <span className="text-sm text-gray-600">Total Raised</span>
             <div className="flex items-center gap-1 text-success-600">
               <TrendingUpIcon className="w-4 h-4" />
-              <span className="text-sm font-medium">25%</span>
+              <span className="text-sm font-medium">2.5%</span>
             </div>
           </div>
-          <div className="text-2xl font-bold text-gray-900">$300.00</div>
+          <div className="text-2xl font-bold text-gray-900">$300000.00</div>
         </div>
 
         <div className="bg-white border border-stroke rounded-lg p-4">
@@ -206,67 +263,43 @@ export default function PerformanceReport() {
 
         <div className="bg-white border border-stroke rounded-lg p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-gray-600">Total Yield</span>
+            <span className="text-sm text-gray-600">Active Investors</span>
             <div className="flex items-center gap-1 text-success-600">
               <TrendingUpIcon className="w-4 h-4" />
               <span className="text-sm font-medium">2%</span>
             </div>
           </div>
-          <div className="text-2xl font-bold text-gray-900">20%</div>
+          <div className="text-2xl font-bold text-gray-900">20</div>
         </div>
       </div>
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* ROI Chart */}
-        <div className="bg-white border border-stroke rounded-lg p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-md font-semibold text-secondary-black">ROI</h3>
-            <div className="flex items-center bg-gray-100 rounded-lg p-1">
-              {timeframes.map((timeframe) => (
-                <button
-                  key={timeframe.key}
-                  onClick={() => setActiveTimeframe(timeframe.key as 'W' | 'M' | 'Q' | 'Y')}
-                  className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-                    activeTimeframe === timeframe.key
-                      ? 'bg-primary text-white'
-                      : 'text-secondary-black hover:text-secondary-black'
-                  }`}
-                >
-                  {timeframe.label}
-                </button>
-              ))}
-            </div>
+        <AreaChartCard
+        title="ROI"
+        labels={activeSeries.labels}
+        values={activeSeries.data}
+        highlightLabel={activeSeries.highlightLabel}
+        yMax={4}
+        yFormatter={(v) => `$${v}k`}
+        headerRight={(
+          <div className="flex gap-3">
+            {timeframes.map((timeframe) => (
+              <button
+                key={timeframe.key}
+                onClick={() => setActiveTimeframe(timeframe.key as 'W' | 'M' | 'Q' | 'Y')}
+                className={`text-sm font-semibold ${activeTimeframe === timeframe.key ? 'text-primary' : 'text-gray-400 hover:text-gray-600'}`}
+              >
+                {timeframe.label}
+              </button>
+            ))}
           </div>
-          <div className="h-64">
-            <Line data={roiChartData} options={roiChartOptions} />
-          </div>
-        </div>
+        )}
+      />
 
-        {/* Asset Allocation Chart */}
-        <div className="bg-white border border-stroke rounded-lg p-4">
-          <h3 className="text-md font-semibold text-secondary-black mb-4">Asset Allocation %</h3>
-          <div className="h-64 flex items-center justify-center">
-            <div className="relative w-48 h-48">
-              <Pie data={assetAllocationData} options={assetAllocationOptions} />
-            </div>
-          </div>
-          
-          {/* Legend */}
-          <div className="mt-4 flex justify-center">
-            <div className="flex gap-6">
-              {assetAllocationData.labels.map((label, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div 
-                    className="w-3 h-3 rounded-full border border-white" 
-                    style={{ backgroundColor: assetAllocationData.datasets[0].backgroundColor[index] }}
-                  />
-                  <span className="text-sm text-gray-600 font-medium">{label}: {assetAllocationData.datasets[0].data[index]}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        {/* Investment Trend per Asset Chart */}
+        <PieChartCard title="Investment Trend per Asset" labels={assetAllocationData.labels} values={assetAllocationData.datasets[0].data} />
       </div>
 
       {/* Risk Exposure Table */}

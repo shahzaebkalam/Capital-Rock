@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Logo from './Logo';
@@ -13,7 +13,12 @@ import {
   ReportsIcon, 
   NotificationsIcon, 
   SettingsIcon, 
-  RightArrowIcon 
+  RightArrowIcon, 
+  InvestorsIcon,
+  DistributionsIcon,
+  AuditTrail,
+  KYCIcon,
+  TransactionsIcon
 } from '@/lib/icons';
 
 interface NavigationItem {
@@ -23,7 +28,7 @@ interface NavigationItem {
   hasSubmenu?: boolean;
 }
 
-const navigationItems: NavigationItem[] = [
+const investorNavigationItems: NavigationItem[] = [
   { name: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
   { name: 'Marketplace (Primary Market)', href: '/marketplace', icon: MarketplaceIcon },
   { name: 'Exchange (Secondary Market)', href: '/exchange', icon: ExchangeIcon },
@@ -45,6 +50,35 @@ interface SidebarProps {
 export default function Sidebar({ isMobileOpen = false, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const [userType, setUserType] = useState<string | null>(null);
+
+  useEffect(() => {
+    try {
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('userType') : null;
+      if (stored) setUserType(stored);
+    } catch {
+      // no-op
+    }
+  }, []);
+
+  const issuerNavigationItems: NavigationItem[] = [
+    { name: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
+    { name: 'My Assets', href: '/my-assets', icon: PortfolioIcon },
+    { name: 'Investors List', href: '/investors-list', icon: InvestorsIcon },
+    { name: 'Distributions', href: '/distributions', icon: DistributionsIcon },
+    { name: 'Reports & Analytics', href: '/reports-analytics', icon: ReportsIcon },
+  ];
+
+  const institutionNavigationItems: NavigationItem[] = [
+    { name: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
+    { name: 'Asset Management', href: '/asset-management', icon: PortfolioIcon },
+    { name: 'User Management', href: '/user-management', icon: InvestorsIcon },
+    { name: 'KYC / Compliance Management', href: '/kyc-compliance-management', icon: KYCIcon },
+    { name: 'Transactions & Payments', href: '/transactions-payments', icon: TransactionsIcon },
+    { name: 'Distributions Management', href: '/distributions-management', icon: DistributionsIcon },
+    { name: 'Reports & Analytics', href: '/reports-analytics', icon: ReportsIcon },
+    { name: 'Audit Trail', href: '/audit-trail', icon: AuditTrail },
+  ];
 
   const isActive = (href: string) => {
     // For marketplace, check if pathname starts with the href
@@ -59,9 +93,18 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
     if (href === '/settings') {
       return pathname.startsWith('/settings');
     }
+    if (href === '/my-assets') {
+      return pathname.startsWith('/my-assets');
+    }
     // For other routes, use exact match
     return pathname === href;
   };
+
+  const mainNavItems = userType === 'issuer' 
+    ? issuerNavigationItems 
+    : userType === 'institution' 
+      ? institutionNavigationItems 
+      : investorNavigationItems;
 
   return (
     <>
@@ -87,7 +130,7 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
 
           {/* Main Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-3">
-            {navigationItems.map((item) => {
+            {mainNavItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.href);
               
@@ -96,7 +139,7 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
                   key={item.name}
                   href={item.href}
                   className={`
-                    flex items-center px-3 py-2 rounded-lg text-sm transition-colors duration-200
+                    flex items-center px-3 py-2 rounded-lg text-sm transition-colors duration-200 min-w-0
                     ${active 
                       ? 'bg-primary text-white' 
                       : 'text-black hover:bg-gray-100'
@@ -105,7 +148,7 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
                   onClick={onMobileClose}
                 >
                   <Icon className={`w-5 h-5 mr-3 ${active ? 'text-white' : 'text-black'}`} />
-                  <span className="flex-1">{item.name}</span>
+                  <span className="flex-1 truncate">{item.name}</span>
                 </Link>
               );
             })}
@@ -122,7 +165,7 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
                   key={item.name}
                   href={item.href}
                   className={`
-                    flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200
+                    flex items-center px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 min-w-0
                     ${active 
                       ? 'bg-primary text-white' 
                       : 'text-black hover:bg-gray-100'
@@ -130,8 +173,8 @@ export default function Sidebar({ isMobileOpen = false, onMobileClose }: Sidebar
                   `}
                   onClick={onMobileClose}
                 >
-                  <Icon className={`w-5 h-5 mr-3 ${active ? 'text-white' : 'text-black'}`} />
-                  <span className="flex-1">{item.name}</span>
+                  <Icon className={` mr-3 ${active ? 'text-white' : 'text-black'}`} />
+                  <span className="flex-1 truncate">{item.name}</span>
                   {item.hasSubmenu && (
                     <RightArrowIcon className={` ${active ? 'text-white' : 'text-black'}`} />
                   )}

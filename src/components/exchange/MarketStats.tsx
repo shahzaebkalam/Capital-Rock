@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Select from '../ui/Select';
-import { StarIcon, OceanAssetIcon, SolarAssetIcon, TrendingDownIcon, InfoIcon, TrendingUpIcon } from '@/lib/icons';
+import { StarIcon, OceanAssetIcon, SolarAssetIcon, TrendingDownIcon, InfoIcon, TrendingUpIcon, CaretUpIcon } from '@/lib/icons';
 import { getProjectById } from '@/data/mockProjects';
 
 interface MarketStatsProps {
@@ -29,13 +29,12 @@ export default function MarketStats({ assetId }: MarketStatsProps) {
 
   // Create icon based on iconType
   const getAssetIcon = () => {
-    const iconClass = "w-8 h-8 text-white";
     if (assetData.iconType === 'ocean') {
-      return <OceanAssetIcon className={iconClass} />;
+      return <OceanAssetIcon />;
     } else if (assetData.iconType === 'solar') {
-      return <SolarAssetIcon className={iconClass} />;
+      return <SolarAssetIcon />;
     }
-    return <OceanAssetIcon className={iconClass} />;
+    return <OceanAssetIcon />;
   };
 
   // Get background color based on iconType
@@ -89,61 +88,66 @@ export default function MarketStats({ assetId }: MarketStatsProps) {
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
-      {/* Header - Market Stats and Star on left, Asset info on right */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold text-gray-900">Market Stats</h1>
-          <button className="p-1 hover:bg-gray-100 rounded">
-            <StarIcon className="w-5 h-5 text-gray-400" />
-          </button>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className={`w-8 h-8 ${getIconBackgroundColor()} rounded-full flex items-center justify-center`}>
-            {getAssetIcon()}
+      {/* Two Column Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+        {/* First Column */}
+        <div className="space-y-4">
+          {/* Row 1: Market Stats and Star */}
+          <div className="flex items-center gap-3">
+            <h1 className="text-base font-semibold text-secondary-black">Market Stats</h1>
+            <button className="p-1 bg-background-light border border-stroke hover:bg-gray-100 rounded">
+              <StarIcon className=" text-gray-400" />
+            </button>
           </div>
-          <span className="text-xl font-semibold text-gray-900">{assetData.name}</span>
-        </div>
-      </div>
-
-      {/* Price and Timeframe Section */}
-      <div className="flex items-start justify-between mb-6">
-        <div className="flex items-baseline gap-3">
-          <span className="text-3xl font-bold text-gray-900">$3.45</span>
-          <span className="text-sm font-medium text-green-600">▲12.4%</span>
-        </div>
-        <div className="text-right">
-          <p className="text-sm text-gray-500 mb-2">{assetData.name} Price(USD)</p>
-          <div className="w-20">
-            <Select
-              options={timeframeOptions}
-              value={timeframe}
-              onChange={(e) => setTimeframe(e.target.value)}
-            />
+          
+          {/* Row 2: Project Icon and Name */}
+          <div className="flex items-center gap-3">
+            <div className={`w-8 h-8 ${getIconBackgroundColor()} rounded-full flex items-center justify-center`}>
+              {getAssetIcon()}
+            </div>
+            <span className="text-base font-semibold text-secondary-black">{assetData.name}</span>
+          </div>
+          
+          {/* Row 3: Rank and Watchlist */}
+          <div className="flex items-center gap-4">
+            <span className="bg-background-light text-secondary-black px-3 py-1 rounded-full text-sm">Rank #1</span>
+            <span className="text-sm text-gray-600">On 2012394 Watchlist</span>
           </div>
         </div>
-      </div>
 
-      {/* Rank and Watchlist */}
-      <div className="mb-6">
-        <div className="flex items-center gap-4">
-          <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">Rank #1</span>
-          <span className="text-sm text-gray-600">On 2012394 Watchlist</span>
-        </div>
-      </div>
-
-      {/* High/Low Price */}
-      <div className="mb-6">
-        <div className="mb-2">
-          <span className="text-sm font-medium text-gray-700">↓↑ High / Low Price</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-600">Low: $3.2017</span>
-          <div className="flex-1 mx-4">
-            <div className="relative h-2 bg-gray-200 rounded-full">
-              <div className="absolute left-0 top-0 h-2 bg-primary rounded-full" style={{ width: '75%' }}></div>
+        {/* Second Column */}
+        <div className="space-y-4">
+          {/* Row 1: Price Row */}
+          <div className="flex flex-row-reverse items-center justify-between">
+            <p className="text-xs text-gray-800">{assetData.name} Price(USD)</p>
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold text-secondary-black">$3.45</span>
+              <span className="text-sm flex items-center gap-1 font-medium text-success-600"><CaretUpIcon className="w-4 h-4" />12.4%</span>
             </div>
           </div>
-          <span className="text-sm text-gray-600">High: $3.6131</span>
+          
+          {/* Row 2: Dropdown */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-800">↓↑ High / Low Price</span>
+              <div className="w-20">
+                <Select
+                  options={timeframeOptions}
+                  value={timeframe}
+                  onChange={(e) => setTimeframe(e.target.value)}
+                />
+              </div>
+            </div>
+             <div className="space-y-2">
+               <div className="relative h-2 bg-gray-200 rounded-full">
+                 <div className="absolute left-0 top-0 h-2 bg-primary rounded-full" style={{ width: '75%' }}></div>
+               </div>
+               <div className="flex justify-between">
+                 <span className="text-sm text-gray-600">Low: $3.2017</span>
+                 <span className="text-sm text-gray-600">High: $3.6131</span>
+               </div>
+             </div>
+          </div>
         </div>
       </div>
 

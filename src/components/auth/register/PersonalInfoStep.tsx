@@ -61,12 +61,16 @@ export default function PersonalInfoStep() {
       ...existingData,
       ...values,
     }));
+    // Persist user type separately for app-wide conditional rendering
+    if (existingData && existingData.accountType) {
+      localStorage.setItem('userType', existingData.accountType);
+    }
     // Show success modal instead of navigating to next step
     setShowSuccessModal(true);
     
     // Auto-redirect to login page after 3 seconds
     setTimeout(() => {
-      router.push('/login');
+      router.push('/kyc');
     }, 3000);
   };
 
@@ -75,7 +79,7 @@ export default function PersonalInfoStep() {
   };
 
   const handleSuccessModalClose = () => {
-    router.push('/login');
+    router.push('/kyc');
     setShowSuccessModal(false);
   };
 

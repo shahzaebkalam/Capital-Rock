@@ -14,6 +14,7 @@
     "chart.js": "^4.5.1",
     "clsx": "^2.1.1",
     "formik": "^2.4.6",
+    "klinecharts": "^10.0.0-alpha5",
     "next": "14.2.33",
     "nprogress": "^0.2.0",
     "react": "^18",

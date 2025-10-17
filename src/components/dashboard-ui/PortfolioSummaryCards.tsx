@@ -27,17 +27,31 @@ const SummaryCard = ({ title, value, change, isPositive }: SummaryCardProps) => 
       {/* Bottom section with value and trend */}
       <div className="flex items-end justify-between">
         <p className="text-lg font-semibold text-gray-900 truncate">{value}</p>
-        <div className={`flex items-center gap-1 sm:gap-2 ${isPositive ? 'text-green-600' : 'text-red-600'} flex-shrink-0`}>
-          {isPositive ? <TrendingUpIcon /> : <TrendingDownIcon />}
-          <span className="text-xs font-medium">{change}</span>
-        </div>
+        {change && (
+          <div className={`flex items-center gap-1 sm:gap-2 ${isPositive ? 'text-green-600' : 'text-red-600'} flex-shrink-0`}>
+            {isPositive ? <TrendingUpIcon /> : <TrendingDownIcon />}
+            <span className="text-xs font-medium">{change}</span>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default function PortfolioSummaryCards() {
-  const summaryData = [
+export type PortfolioSummaryItem = {
+  title: string;
+  value: string;
+  change?: string;
+  isPositive?: boolean;
+};
+
+interface PortfolioSummaryCardsProps {
+  title?: string;
+  items?: PortfolioSummaryItem[];
+}
+
+export default function PortfolioSummaryCards({ title = 'Portfolio Summary Card', items }: PortfolioSummaryCardsProps) {
+  const defaultItems: PortfolioSummaryItem[] = [
     {
       title: 'Portfolio Value',
       value: '$300.00',
@@ -72,15 +86,15 @@ export default function PortfolioSummaryCards() {
 
   return (
     <div className="bg-white rounded-lg p-4 sm:p-6 border border-stroke">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4 sm:mb-6">Portfolio Summary Card</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4 sm:mb-6">{title}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-        {summaryData.map((item, index) => (
+        {(items ?? defaultItems).map((item, index) => (
           <SummaryCard
             key={index}
             title={item.title}
             value={item.value}
-            change={item.change}
-            isPositive={item.isPositive}
+            change={item.change ?? ''}
+            isPositive={item.isPositive ?? true}
           />
         ))}
       </div>

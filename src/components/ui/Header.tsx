@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from './Avatar';
 import { VerifiedIcon, WalletIcon, DownArrowIcon } from '@/lib/icons';
+import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
   userName?: string;
@@ -20,6 +21,29 @@ export default function Header({
   onMenuClick
 }: HeaderProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    try {
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('userType') : null;
+      if (stored) {
+        setUserType(stored);
+      }
+    } catch {
+      // no-op
+    }
+  }, []);
+
+  const handleSignOut = () => {
+    try {
+      localStorage.clear();
+    } catch {
+      // no-op
+    }
+    setIsDropdownOpen(false);
+    router.push('/login');
+  };
 
   return (
     <header className={`bg-white border-b border-stroke px-4 py-4 sm:px-6 lg:px-8 ${className}`}>
@@ -77,32 +101,38 @@ export default function Header({
                   Settings
                 </a>
                 <hr className="my-1" />
-                <a
-                  href="/login"
-                  className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                 >
                   Sign out
-                </a>
+                </button>
               </div>
             )}
           </div>
         </div>
 
-        {/* Bottom Row - Status Pills */}
+        {/* Bottom Row - Status Pills */
+        }
         <div className="flex items-center gap-2 overflow-x-auto">
           {/* KYC Status */}
-          <div className="flex items-center bg-background-light border border-stroke rounded-md px-2 py-2 min-w-0 flex-shrink-0">
-            <span className="text-xs text-black mr-1 font-sans">KYC:</span>
-            <VerifiedIcon />
-            <span className="text-xs text-black ml-1 font-sans">Verified</span>
-          </div>
+          {userType !== 'institution' && (
+            <div className="flex items-center bg-background-light border border-stroke rounded-md px-2 py-2 min-w-0 flex-shrink-0">
+              <span className="text-xs text-black mr-1 font-sans">KYC:</span>
+              <VerifiedIcon />
+              <span className="text-xs text-black ml-1 font-sans">Verified</span>
+            </div>
+          )}
 
           {/* Wallet Address */}
-          <div className="flex items-center bg-background-light border border-stroke rounded-md px-2 py-2 min-w-0 flex-shrink-0">
-            <span className="text-xs text-black mr-1 font-sans">Wallet:</span>
-            <WalletIcon className="text-[#3676E3]" />
-            <span className="text-xs text-black ml-1 font-sans truncate max-w-20">{walletAddress}</span>
-          </div>
+          {userType === 'individual' && (
+            <div className="flex items-center bg-background-light border border-stroke rounded-md px-2 py-2 min-w-0 flex-shrink-0">
+              <span className="text-xs text-black mr-1 font-sans">Wallet:</span>
+              <WalletIcon className="text-[#3676E3]" />
+              <span className="text-xs text-black ml-1 font-sans truncate max-w-20">{walletAddress}</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -121,18 +151,22 @@ export default function Header({
         {/* Right Section - Status and Avatar */}
         <div className="flex items-center gap-4">
           {/* KYC Status */}
-          <div className="flex items-center bg-background-light border border-stroke rounded-md px-3 py-2">
-            <span className="text-sm text-black mr-2 font-sans">KYC:</span>
-            <VerifiedIcon />
-            <span className="text-sm text-black ml-2 font-sans">Verified</span>
-          </div>
+          {userType !== 'institution' && (
+            <div className="flex items-center bg-background-light border border-stroke rounded-md px-3 py-2">
+              <span className="text-sm text-black mr-2 font-sans">KYC:</span>
+              <VerifiedIcon />
+              <span className="text-sm text-black ml-2 font-sans">Verified</span>
+            </div>
+          )}
 
           {/* Wallet Address */}
-          <div className="flex items-center bg-background-light border border-stroke rounded-md px-3 py-2">
-            <span className="text-sm text-black mr-2 font-sans">Wallet:</span>
-            <WalletIcon className="text-[#3676E3]" />
-            <span className="text-sm text-black ml-2 font-sans">{walletAddress}</span>
-          </div>
+          {userType === 'individual' && (
+            <div className="flex items-center bg-background-light border border-stroke rounded-md px-3 py-2">
+              <span className="text-sm text-black mr-2 font-sans">Wallet:</span>
+              <WalletIcon className="text-[#3676E3]" />
+              <span className="text-sm text-black ml-2 font-sans">{walletAddress}</span>
+            </div>
+          )}
 
           {/* Avatar with Dropdown */}
           <div className="relative">
@@ -165,12 +199,13 @@ export default function Header({
                   Settings
                 </a>
                 <hr className="my-1" />
-                <a
-                  href="/login"
-                  className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                 >
                   Sign out
-                </a>
+                </button>
               </div>
             )}
           </div>

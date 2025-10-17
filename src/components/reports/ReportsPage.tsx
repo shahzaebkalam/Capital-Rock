@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { SearchBar, FilterDropdown, ResetButton } from '@/components/searchbar';
 import PerformanceReport from './PerformanceReport';
 import RegulatoryReports from './RegulatoryReports';
-import ExportTools from './ExportTools';
+import ExportTools from '../dashboard-ui/ExportTools';
 
 export default function ReportsPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,14 +33,6 @@ export default function ReportsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-black">Reports</h1>
-        <div className="flex items-center gap-4">
-          <SearchBar
-            value={searchTerm}
-            onChange={setSearchTerm}
-            placeholder="Search reports..."
-            className="w-64"
-          />
-        </div>
       </div>
 
       {/* Search and Filters */}
@@ -84,7 +76,7 @@ export default function ReportsPage() {
       <div className="space-y-6">
         <PerformanceReport />
         <RegulatoryReports />
-        <ExportTools />
+        <ExportTools stepNumber={3} />
       </div>
     </div>
   );

@@ -124,13 +124,12 @@ export default function TradeHistory({ activeTab, onTabChange }: TradeHistoryPro
   ];
 
   const getProjectIcon = (iconType: 'ocean' | 'solar') => {
-    const iconClass = "w-8 h-8 text-white";
     if (iconType === 'ocean') {
-      return <OceanAssetIcon className={iconClass} />;
+      return <OceanAssetIcon />;
     } else if (iconType === 'solar') {
-      return <SolarAssetIcon className={iconClass} />;
+      return <SolarAssetIcon />;
     }
-    return <OceanAssetIcon className={iconClass} />;
+    return <OceanAssetIcon />;
   };
 
   const getIconBackgroundColor = (iconType: 'ocean' | 'solar') => {
@@ -143,8 +142,9 @@ export default function TradeHistory({ activeTab, onTabChange }: TradeHistoryPro
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-6">
+    <div className="bg-white space-y-6 rounded-lg border border-gray-200 p-6">
       {/* Tabs */}
+      <h1 className="text-base font-semibold text-secondary-black">Trade History</h1>
       <div className="border-b border-stroke mb-6">
         <nav className="flex overflow-x-auto">
           {tabs.map((tab) => (
@@ -187,7 +187,7 @@ export default function TradeHistory({ activeTab, onTabChange }: TradeHistoryPro
               <tr key={index} className="hover:bg-gray-50">
                 <td className="py-4 px-6">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 ${getIconBackgroundColor(asset.iconType)} rounded-full flex items-center justify-center`}>
+                    <div className={`p-1 ${getIconBackgroundColor(asset.iconType)} rounded-full flex items-center justify-center`}>
                       {getProjectIcon(asset.iconType)}
                     </div>
                     <span className="text-sm font-medium text-gray-900">{asset.name}</span>

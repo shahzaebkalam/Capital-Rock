@@ -30,16 +30,30 @@ const AssetCard = ({ title, value, change, isPositive, icon, iconColor }: AssetC
           <p className="text-lg font-bold text-gray-900">{value}</p>
         </div>
         <div className={`flex items-center gap-1 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-          {isPositive ? <TrendingUpIcon /> : <TrendingDownIcon />}
-          <span className="text-sm font-medium">{change}</span>
+          {change && (isPositive ? <TrendingUpIcon /> : <TrendingDownIcon />)}
+          {change && <span className="text-sm font-medium">{change}</span>}
         </div>
       </div>
     </div>
   );
 };
 
-export default function AssetCards() {
-  const assetData = [
+export type AssetItem = {
+  title: string;
+  value: string;
+  change?: string;
+  isPositive?: boolean;
+  icon?: React.ReactNode;
+  iconColor?: string;
+};
+
+interface AssetCardsProps {
+  title?: string;
+  items?: AssetItem[];
+}
+
+export default function AssetCards({ title = 'Asset Cards', items }: AssetCardsProps) {
+  const assetData: AssetItem[] = items ?? [
     {
       title: 'RWA Asset A',
       value: '$120.00',
@@ -76,17 +90,17 @@ export default function AssetCards() {
 
   return (
     <div className="bg-white rounded-lg p-4 sm:p-6 border border-stroke">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4 sm:mb-6">Asset Cards</h2>
+      <h2 className="text-lg font-semibold text-gray-900 mb-4 sm:mb-6">{title}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {assetData.map((asset, index) => (
           <AssetCard
             key={index}
             title={asset.title}
             value={asset.value}
-            change={asset.change}
-            isPositive={asset.isPositive}
-            icon={asset.icon}
-            iconColor={asset.iconColor}
+            change={asset.change ?? ''}
+            isPositive={asset.isPositive ?? true}
+            icon={asset.icon ?? <RWAIcon className=" text-purple-500" />}
+            iconColor={asset.iconColor ?? '#8B5CF6'}
           />
         ))}
       </div>
