@@ -32,8 +32,20 @@ const pieData = {
   datasets: [
     {
       data: [50, 35, 15],
-      backgroundColor: ['#B58833', '#D2B48C', '#F0E7D6'],
-      borderWidth: 0,
+      backgroundColor: [
+        'rgba(212, 175, 55, 0.8)', // Golden
+        'rgba(181, 136, 51, 0.8)', // Darker golden
+        'rgba(210, 180, 140, 0.8)', // Tan
+      ],
+      borderColor: '#FFFFFF',
+      borderWidth: 2,
+      hoverBackgroundColor: [
+        'rgba(212, 175, 55, 1)',
+        'rgba(181, 136, 51, 1)',
+        'rgba(210, 180, 140, 1)',
+      ],
+      hoverBorderColor: '#D4AF37',
+      hoverBorderWidth: 3,
     },
   ],
 };
@@ -88,6 +100,28 @@ export default function ChartsSection() {
                   },
                   tooltip: {
                     enabled: true,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleColor: '#FFFFFF',
+                    bodyColor: '#FFFFFF',
+                    borderColor: '#D4AF37',
+                    borderWidth: 1,
+                    cornerRadius: 8,
+                    displayColors: true,
+                    callbacks: {
+                      title: function(context: any) {
+                        return context[0].label;
+                      },
+                      label: function(context: any) {
+                        const value = context.parsed;
+                        return `${context.label}: ${value}%`;
+                      },
+                    },
+                  },
+                },
+                elements: {
+                  arc: {
+                    borderWidth: 2,
+                    borderColor: '#FFFFFF',
                   },
                 },
               }}
@@ -99,10 +133,10 @@ export default function ChartsSection() {
             {pieData.labels.map((label, index) => (
               <div key={index} className="flex items-center gap-2">
                 <div 
-                  className="w-3 h-3 rounded-full" 
+                  className="w-3 h-3 rounded-full border border-white" 
                   style={{ backgroundColor: pieData.datasets[0].backgroundColor[index] }}
                 />
-                <span className="text-sm text-gray-600">{label}: {pieData.datasets[0].data[index]}%</span>
+                <span className="text-sm text-gray-600 font-medium">{label}: {pieData.datasets[0].data[index]}%</span>
               </div>
             ))}
           </div>

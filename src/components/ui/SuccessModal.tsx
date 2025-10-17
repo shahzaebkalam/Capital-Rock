@@ -5,6 +5,7 @@ import Logo from './Logo';
 import Button from './Button';
 import Checkbox from './Checkbox';
 import { XIcon } from '@/lib/icons';
+import Button from './Button';
 
 interface SuccessModalProps {
   isOpen: boolean;
@@ -12,9 +13,19 @@ interface SuccessModalProps {
   title: string;
   buttonText: string;
   onButtonClick: () => void;
+<<<<<<< HEAD
   description?: string;
   items?: string[];
   checkboxes?: { label: string; checked: boolean; onChange: (checked: boolean) => void }[];
+=======
+  // Optional second button props
+  secondaryButtonText?: string;
+  onSecondaryButtonClick?: () => void;
+  secondaryButtonIcon?: React.ReactNode;
+  // Optional message content
+  message?: string;
+  details?: string;
+>>>>>>> main
 }
 
 export default function SuccessModal({
@@ -23,9 +34,17 @@ export default function SuccessModal({
   title,
   buttonText,
   onButtonClick,
+<<<<<<< HEAD
   description,
   items,
   checkboxes
+=======
+  secondaryButtonText,
+  onSecondaryButtonClick,
+  secondaryButtonIcon,
+  message,
+  details
+>>>>>>> main
 }: SuccessModalProps) {
   useEffect(() => {
     if (isOpen) {
@@ -58,12 +77,18 @@ export default function SuccessModal({
       {/* Main Content - positioned like other auth pages */}
       <div className="flex-1 flex flex-col items-center justify-start px-4 pt-6 sm:pt-10">
         {/* Logo */}
+<<<<<<< HEAD
         <div className="flex justify-center mb-6 sm:mb-8 mt-2">
           <Logo width={60} height={60} />
+=======
+        <div className="flex justify-center mb-6">
+          <Logo width={120} height={120} />
+>>>>>>> main
         </div>
 
         {/* Success Message */}
         <div className="text-center mb-8">
+<<<<<<< HEAD
           <h2 className="text-2xl sm:text-5xl font-display text-gray-900 mb-6">
             {title}
           </h2>
@@ -101,6 +126,46 @@ export default function SuccessModal({
           <Button onClick={onButtonClick} className="w-full max-w-sm">
             {buttonText}
           </Button>
+=======
+          <h2 className="text-2xl sm:text-5xl font-display text-secondary-black mb-4">
+            {title}
+          </h2>
+          {message && (
+            <p className="text-lg text-gray-800 mb-2 font-sans">
+              {message}
+            </p>
+          )}
+          {details && (
+            <p className="text-lg text-gray-800 font-sans">
+              {details}
+            </p>
+          )}
+        </div>
+
+        {/* Action Buttons */}
+        <div className={`flex flex-col space-y-4 ${(message || details) ? 'w-full max-w-2xl' : 'items-center'}`}>
+          {/* Primary Button */}
+          <Button
+            onClick={onButtonClick}
+            variant="primary"
+            size="md"
+            className={(message || details) ? 'w-full' : ''}
+          >
+            {buttonText}
+          </Button>
+          
+          {/* Secondary Button (if provided) */}
+          {secondaryButtonText && onSecondaryButtonClick && (
+            <Button
+              onClick={onSecondaryButtonClick}
+              variant="secondary"
+              size="md"
+              className={(message || details) ? 'w-full' : ''}
+            >
+              {secondaryButtonText} {secondaryButtonIcon && <span className="ml-2">{secondaryButtonIcon}</span>}
+            </Button>
+          )}
+>>>>>>> main
         </div>
       </div>
     </div>

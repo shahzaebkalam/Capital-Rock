@@ -13,6 +13,10 @@ module.exports = {
           DEFAULT: "#B58833",
         },
 
+        "secondary-black": {
+          DEFAULT: "#020202",
+        },
+
         // Neutral Colors
         neutral: {
           DEFAULT: "#000000",
