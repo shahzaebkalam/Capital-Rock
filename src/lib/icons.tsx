@@ -291,23 +291,6 @@ export const WalletIcon = ({ className }: { className?: string }) => {
   );
 };
 
-export const WalletConnectIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      viewBox="0 0 40 24"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M7.077 6.718c5.962-5.958 15.883-5.958 21.845 0l.729.729a1.25 1.25 0 010 1.768l-2.811 2.81a1.25 1.25 0 01-1.768 0l-1.287-1.287c-3.99-3.99-10.47-3.99-14.46 0l-1.36 1.36a1.25 1.25 0 01-1.768 0L2.386 9.215a1.25 1.25 0 010-1.768l.69-.69zm4.242 4.24c3.99-3.988 10.47-3.988 14.46 0l.688.689a1.25 1.25 0 010 1.768l-2.81 2.81a1.25 1.25 0 01-1.768 0l-.607-.607c-2.343-2.343-6.143-2.343-8.486 0l-.638.638a1.25 1.25 0 01-1.768 0l-2.78-2.78a1.25 1.25 0 010-1.768l.528-.528z"
-        fill="#3676E3"
-      />
-    </svg>
-  );
-};
-
 export const PortfolioIcon = ({ className }: { className?: string }) => {
   return (
     <svg
