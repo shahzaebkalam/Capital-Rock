@@ -66,8 +66,8 @@ export default function BarChartCard({
       tooltip: {
         enabled: true,
         callbacks: {
-          label: (ctx: any) => {
-            const raw = ctx.raw as number;
+          label: (tooltipItem: { raw: unknown }) => {
+            const raw = tooltipItem.raw as number;
             return yFormatter ? yFormatter(raw) : `${raw}%`;
           },
         },
@@ -95,7 +95,7 @@ export default function BarChartCard({
             size: 12,
           },
           stepSize: 5,
-          callback: (value: any) => (yFormatter ? yFormatter(value) : `${value}%`),
+          callback: (value: string | number) => (yFormatter ? yFormatter(Number(value)) : `${value}%`),
         },
         grid: {
           color: 'rgba(0,0,0,0.08)',

@@ -1,6 +1,6 @@
 "use client";
 
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
@@ -43,9 +43,6 @@ export default function WalletConnectStep({ onCompleted }: WalletConnectStepProp
     router.push("/kyc?step=compliance");
   };
 
-  const handleComplete = () => {
-    if (onCompleted) onCompleted();
-  };
 
   return (
     <div className="w-full">
@@ -60,7 +57,7 @@ export default function WalletConnectStep({ onCompleted }: WalletConnectStepProp
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, setFieldValue, values }) => (
+        {({ errors, setFieldValue, values }) => (
           <Form className="w-full max-w-md mx-auto">
             <div className="space-y-4">
               <button

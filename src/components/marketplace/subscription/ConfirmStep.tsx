@@ -9,7 +9,7 @@ import SuccessModal from '@/components/ui/SuccessModal';
 
 interface ConfirmStepProps {
   projectId: string;
-  projectData: any;
+  projectData: { name: string; type: string; details: { targetROI: string }; terms: { minInvestment: string; maxInvestment: string; lockupPeriod: string } };
 }
 
 export default function ConfirmStep({ projectId, projectData }: ConfirmStepProps) {
@@ -46,9 +46,9 @@ export default function ConfirmStep({ projectId, projectData }: ConfirmStepProps
   // Create icon based on iconType
   const getProjectIcon = () => {
     const iconClass = "w-8 h-8 text-white";
-    if (projectData.iconType === 'ocean') {
+    if (projectData.type.toLowerCase() .includes('ocean')) {
       return <OceanAssetIcon className={iconClass} />;
-    } else if (projectData.iconType === 'solar') {
+    } else if (projectData.type.toLowerCase() .includes('solar')) {
       return <SolarAssetIcon className={iconClass} />;
     }
     return <OceanAssetIcon className={iconClass} />;
@@ -56,9 +56,9 @@ export default function ConfirmStep({ projectId, projectData }: ConfirmStepProps
 
   // Get background color based on iconType
   const getIconBackgroundColor = () => {
-    if (projectData.iconType === 'ocean') {
+    if (projectData.type.toLowerCase() .includes('ocean')) {
       return 'bg-blue-500';
-    } else if (projectData.iconType === 'solar') {
+    } else if (projectData.type.toLowerCase() .includes('solar')) {
       return 'bg-green-500';
     }
     return 'bg-blue-500';
@@ -113,16 +113,6 @@ export default function ConfirmStep({ projectId, projectData }: ConfirmStepProps
     }
   };
 
-  const getPaymentMethodDisplayName = (method: string) => {
-    switch (method) {
-      case 'sepa':
-        return 'SEPA Bank Transfer';
-      case 'usd-onchain':
-        return 'USD (On-chain Payment)';
-      default:
-        return method;
-    }
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">

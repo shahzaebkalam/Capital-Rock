@@ -33,7 +33,7 @@ export default function SubscriptionForm({ projectId }: SubscriptionFormProps) {
       <div className="max-w-7xl mx-auto p-6">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900">Project Not Found</h1>
-          <p className="text-gray-600 mt-2">The project you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mt-2">The project you&apos;re looking for doesn&apos;t exist.</p>
         </div>
       </div>
     );

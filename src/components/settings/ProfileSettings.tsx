@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, FieldProps } from "formik";
 import * as Yup from "yup";
 import { CalendarIcon, CheckIcon } from "@/lib/icons";
 import Button from "../ui/Button";
@@ -123,7 +123,7 @@ export default function ProfileSettings() {
 
   const handleSubmit = (
     values: typeof initialValues,
-    { setSubmitting }: any
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
   ) => {
     console.log("Profile updated:", values);
     console.log("Profile image:", profileImage);
@@ -141,7 +141,7 @@ export default function ProfileSettings() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, values, setFieldValue }) => (
+        {({ isSubmitting }) => (
           <Form className="space-y-8">
             {/* Personal Information */}
             <div>
@@ -208,7 +208,7 @@ export default function ProfileSettings() {
                     Full Name
                   </label>
                   <Field name="fullName">
-                    {({ field, meta }: any) => (
+                    {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                       <div>
                         <Input
                           id="fullName"
@@ -230,7 +230,7 @@ export default function ProfileSettings() {
                       Email Address
                     </label>
                     <Field name="email">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Input
                             id="email"
@@ -254,7 +254,7 @@ export default function ProfileSettings() {
                       Phone Number
                     </label>
                     <Field name="phone">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Input
                             id="phone"
@@ -277,7 +277,7 @@ export default function ProfileSettings() {
                       Nationality
                     </label>
                     <Field name="nationality">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Select
                             id="nationality"
@@ -301,7 +301,7 @@ export default function ProfileSettings() {
                       Country of Residence
                     </label>
                     <Field name="countryOfResidence">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Select
                             id="countryOfResidence"
@@ -325,7 +325,7 @@ export default function ProfileSettings() {
                       Preferred Language
                     </label>
                     <Field name="preferredLanguage">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Select
                             id="preferredLanguage"
@@ -349,7 +349,7 @@ export default function ProfileSettings() {
                       Date of Birth
                     </label>
                     <Field name="dateOfBirth">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Input
                             id="dateOfBirth"
@@ -376,7 +376,7 @@ export default function ProfileSettings() {
                       Address
                     </label>
                     <Field name="address">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Input
                             id="address"
@@ -399,7 +399,7 @@ export default function ProfileSettings() {
                       TAX ID / SSN
                     </label>
                     <Field name="taxId">
-                      {({ field, meta }: any) => (
+                      {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                         <div>
                           <Input
                             id="taxId"
@@ -430,7 +430,7 @@ export default function ProfileSettings() {
                         Investor type
                       </label>
                       <Field name="investorType">
-                        {({ field, meta }: any) => (
+                        {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                           <div>
                             <Select
                               id="investorType"
@@ -454,7 +454,7 @@ export default function ProfileSettings() {
                         Jurisdiction
                       </label>
                       <Field name="jurisdiction">
-                        {({ field, meta }: any) => (
+                        {({ field, meta }: { field: FieldProps['field']; meta: FieldProps['meta'] }) => (
                           <div>
                             <Select
                               id="jurisdiction"

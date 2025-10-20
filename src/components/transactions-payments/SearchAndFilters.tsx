@@ -34,8 +34,8 @@ const filterOptions = {
 
 export default function SearchAndFilters({ searchQuery, onSearchChange, filters, onFilterChange, onReset }: Props) {
   return (
-    <div className="flex flex-col lg:flex-row lg:items-center gap-4 w-full">
-      <div className="flex-1 min-w-0">
+    <div className="flex flex-col lg:justify-end lg:flex-row lg:items-center gap-4 w-full">
+      <div className=" min-w-0">
         <SearchBar value={searchQuery} onChange={onSearchChange} placeholder="Search transactions..." className="w-full" />
       </div>
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">

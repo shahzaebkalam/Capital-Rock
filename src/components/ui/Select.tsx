@@ -17,7 +17,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, label, error, options, placeholder, value, arrowClassName, variant = 'default', ...props }, ref) => {
+  ({ className, error, options, placeholder, value, arrowClassName, variant = 'default', ...props }, ref) => {
     const isPlaceholder = !value || value === '';
     
     const variants = {

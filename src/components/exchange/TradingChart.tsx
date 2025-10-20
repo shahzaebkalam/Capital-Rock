@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { SearchIcon, FullscreenIcon } from '@/lib/icons';
+import { FullscreenIcon } from '@/lib/icons';
 import Select from '../ui/Select';
 import { init, dispose, Chart } from 'klinecharts';
 import Button from '../ui/Button';
@@ -56,9 +56,10 @@ export default function TradingChart({ activeTab, onTabChange }: TradingChartPro
   ];
 
   useEffect(() => {
-    if (chartRef.current && !chartInstance.current) {
+    const currentChartRef = chartRef.current;
+    if (currentChartRef && !chartInstance.current) {
       // Initialize the chart
-      chartInstance.current = init(chartRef.current);
+      chartInstance.current = init(currentChartRef);
       
       // Set chart styles with proper types
       if (chartInstance.current) {
@@ -83,7 +84,7 @@ export default function TradingChart({ activeTab, onTabChange }: TradingChartPro
               noChangeColor: '#6b7280'
             },
             tooltip: {
-              custom: (data: any) => {
+              custom: (data: { kLineData?: { open?: number; high?: number; low?: number; close?: number; volume?: number } }) => {
                 return [
                   { title: 'Open', value: data.kLineData?.open?.toFixed(2) || '' },
                   { title: 'High', value: data.kLineData?.high?.toFixed(2) || '' },
@@ -188,8 +189,8 @@ export default function TradingChart({ activeTab, onTabChange }: TradingChartPro
     }
 
     return () => {
-      if (chartInstance.current && chartRef.current) {
-        dispose(chartRef.current);
+      if (chartInstance.current && currentChartRef) {
+        dispose(currentChartRef);
         chartInstance.current = null;
       }
     };

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Forum } from "next/font/google";
 import "./globals.css";
 import ProgressBar from "@/components/ProgressBar";
+import { Suspense } from "react";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${forum.variable} font-sans`}>
-        <ProgressBar />
+        <Suspense fallback={null}>
+          <ProgressBar />
+        </Suspense>
         {children}
       </body>
     </html>

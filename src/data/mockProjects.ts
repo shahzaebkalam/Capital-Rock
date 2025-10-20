@@ -1,5 +1,3 @@
-import React from 'react';
-import { OceanAssetIcon, SolarAssetIcon } from '@/lib/icons';
 
 export interface Project {
   id: number;

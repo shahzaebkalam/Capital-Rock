@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
-import { DownArrowIcon, RightArrowIcon } from "@/lib/icons";
+import { DownArrowIcon } from "@/lib/icons";
 import Link from "next/link";
 import MainLayout from "../layouts/MainLayout";
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { SearchBar, FilterDropdown, ResetButton } from '@/components/searchbar';
-import PerformanceReport from './PerformanceReport';
+import PerformanceReport from '../dashboard-ui/PerformanceReport';
 import RegulatoryReports from './RegulatoryReports';
 import ExportTools from '../dashboard-ui/ExportTools';
 

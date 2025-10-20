@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import QRCode from 'qrcode';
@@ -105,9 +106,11 @@ export default function TwoFactorPage() {
             {/* QR Code */}
             {qrCodeDataUrl && (
               <div className="flex justify-center mb-4">
-                <img 
+                <Image 
                   src={qrCodeDataUrl} 
                   alt="2FA QR Code" 
+                  width={192}
+                  height={192}
                   className="w-48 h-48 border border-gray-200 rounded"
                 />
               </div>

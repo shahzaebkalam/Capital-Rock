@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SearchBar, FilterDropdown, ResetButton } from "@/components/searchbar";
 import { BroadcastIcon } from "@/lib/icons";
 
@@ -27,7 +27,13 @@ export default function NotificationsPage() {
   const [user, setUser] = useState("");
   const [actionType, setActionType] = useState("");
   const [asset, setAsset] = useState("");
-  const userType = localStorage.getItem("userType");
+  const [userType, setUserType] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setUserType(localStorage.getItem("userType"));
+    }
+  }, []);
 
   const simpleOptions = [
     { value: "", label: "Any" },

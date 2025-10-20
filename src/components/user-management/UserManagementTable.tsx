@@ -82,10 +82,10 @@ export default function UserManagementTable({ activeTab, searchQuery, filters, c
 
   const filtered = useMemo(() => {
     const q = searchQuery.toLowerCase();
-    return source.filter((r: any) => {
-      const matchesSearch = !q || r.name.toLowerCase().includes(q) || r.email.toLowerCase().includes(q) || (r.wallet?.toLowerCase?.().includes(q));
+    return source.filter((r: InvestorRow | IssuerRow | AdminRow) => {
+      const matchesSearch = !q || r.name.toLowerCase().includes(q) || r.email.toLowerCase().includes(q) || ('wallet' in r && r.wallet?.toLowerCase?.().includes(q));
       const matchesCountry = filters.country === 'all' || r.country === filters.country;
-      const matchesKyc = filters.kyc === 'all' || r.kyc === (filters.kyc as any) || activeTab === 'admins';
+      const matchesKyc = filters.kyc === 'all' || ('kyc' in r && r.kyc === filters.kyc) || activeTab === 'admins';
       return matchesSearch && matchesCountry && matchesKyc;
     });
   }, [source, searchQuery, filters, activeTab]);
@@ -95,12 +95,24 @@ export default function UserManagementTable({ activeTab, searchQuery, filters, c
   const start = (currentPage - 1) * itemsPerPage;
   const pageRows = filtered.slice(start, start + itemsPerPage);
 
-  React.useEffect(() => { onTotalPagesChange && onTotalPagesChange(totalPages); }, [totalPages, onTotalPagesChange]);
+  React.useEffect(() => { 
+    if (onTotalPagesChange) {
+      onTotalPagesChange(totalPages);
+    }
+  }, [totalPages, onTotalPagesChange]);
 
   const allSelected = pageRows.length > 0 && pageRows.every((r) => selected.has(r.id));
   const someSelected = pageRows.some((r) => selected.has(r.id));
   const toggleAll = (checked: boolean) => setSelected((prev) => { const n = new Set(prev); pageRows.forEach((r) => checked ? n.add(r.id) : n.delete(r.id)); return n; });
-  const toggleOne = (id: number) => setSelected((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleOne = (id: number) => setSelected((p) => { 
+    const n = new Set(p); 
+    if (n.has(id)) {
+      n.delete(id);
+    } else {
+      n.add(id);
+    }
+    return n; 
+  });
 
   if (pageRows.length === 0) return <NoDataFound title="No records found" description="Try adjusting your search or filter criteria." />;
 
@@ -154,7 +166,7 @@ export default function UserManagementTable({ activeTab, searchQuery, filters, c
           </thead>
 
           <tbody className="divide-y divide-stroke">
-            {pageRows.map((row: any) => (
+            {pageRows.map((row: InvestorRow | IssuerRow | AdminRow) => (
               <tr key={row.id} className="hover:bg-background-light">
                 <td className="w-12 px-3 py-4"><input type="checkbox" className="rounded border-stroke" checked={selected.has(row.id)} onChange={() => toggleOne(row.id)} /></td>
                 <td className="px-4 py-4 flex items-center gap-2 text-sm text-gray-900">
@@ -164,7 +176,7 @@ export default function UserManagementTable({ activeTab, searchQuery, filters, c
                 <td className="px-4 py-4 text-sm text-gray-900">{row.email}</td>
                 <td className="px-4 py-4 text-sm text-gray-900">{row.country}</td>
 
-                {activeTab === 'investors' && (
+                {activeTab === 'investors' && 'invested' in row && (
                   <>
                     <td className="px-4 py-4 text-sm text-gray-900">{row.invested}</td>
                     <td className="px-4 py-4 text-sm text-primary underline">{row.wallet}</td>
@@ -174,7 +186,7 @@ export default function UserManagementTable({ activeTab, searchQuery, filters, c
                   </>
                 )}
 
-                {activeTab === 'issuers' && (
+                {activeTab === 'issuers' && 'totalRaised' in row && (
                   <>
                     <td className="px-4 py-4 text-sm text-gray-900">{row.totalRaised}</td>
                     <td className="px-4 py-4 text-sm text-primary underline">{row.wallet}</td>
@@ -184,7 +196,7 @@ export default function UserManagementTable({ activeTab, searchQuery, filters, c
                   </>
                 )}
 
-                {activeTab === 'admins' && (
+                {activeTab === 'admins' && 'role' in row && (
                   <>
                     <td className="px-4 py-4 text-sm text-gray-900">{row.role}</td>
                     <td className="px-4 py-4"><Badge status={row.status} /></td>

@@ -10,7 +10,7 @@ import Input from '@/components/ui/Input';
 
 interface AmountStepProps {
   projectId: string;
-  projectData: any;
+  projectData: { name: string; type: string; details: { targetROI: string }; terms: { minInvestment: string; maxInvestment: string; lockupPeriod: string } };
 }
 
 interface FormValues {
@@ -38,9 +38,9 @@ export default function AmountStep({ projectId, projectData }: AmountStepProps) 
   // Create icon based on iconType
   const getProjectIcon = () => {
     const iconClass = "w-8 h-8 text-white";
-    if (projectData.iconType === 'ocean') {
+    if (projectData.type.toLowerCase() .includes('ocean')) {
       return <OceanAssetIcon className={iconClass} />;
-    } else if (projectData.iconType === 'solar') {
+    } else if (projectData.type.toLowerCase() .includes('solar')) {
       return <SolarAssetIcon className={iconClass} />;
     }
     return <OceanAssetIcon className={iconClass} />;
@@ -48,9 +48,9 @@ export default function AmountStep({ projectId, projectData }: AmountStepProps) 
 
   // Get background color based on iconType
   const getIconBackgroundColor = () => {
-    if (projectData.iconType === 'ocean') {
+    if (projectData.type.toLowerCase() .includes('ocean')) {
       return 'bg-blue-500';
-    } else if (projectData.iconType === 'solar') {
+    } else if (projectData.type.toLowerCase() .includes('solar')) {
       return 'bg-green-500';
     }
     return 'bg-blue-500';
@@ -101,8 +101,8 @@ export default function AmountStep({ projectId, projectData }: AmountStepProps) 
 
                 {/* Min/Max Labels */}
                 <div className="flex justify-between text-sm sm:text-sm text-gray-500 font-sans">
-                  <span>Min: $5,000</span>
-                  <span>Max: $500,000</span>
+                  <span>Min: {projectData.terms.minInvestment}</span>
+                  <span>Max: {projectData.terms.maxInvestment}</span>
                 </div>
 
                 {/* Continue Button */}

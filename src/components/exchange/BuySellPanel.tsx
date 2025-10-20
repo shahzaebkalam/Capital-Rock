@@ -3,15 +3,13 @@
 import React, { useState } from 'react';
 import { MarketIcon, FlagIcon, OceanAssetIcon, WalletIcon } from '@/lib/icons';
 import Button from '../ui/Button';
-import Input from '../ui/Input';
-import Select from '../ui/Select';
 import CurrencyDropdown from '../ui/CurrencyDropdown';
 
 interface BuySellPanelProps {
   assetId: string;
 }
 
-export default function BuySellPanel({ assetId }: BuySellPanelProps) {
+export default function BuySellPanel({ }: BuySellPanelProps) {
   const [activeTab, setActiveTab] = useState<'buy' | 'sell'>('buy');
   const [orderType, setOrderType] = useState<'limit' | 'market'>('market');
   const [quantity, setQuantity] = useState('');

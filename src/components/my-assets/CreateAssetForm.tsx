@@ -1,9 +1,8 @@
 'use client';
 
 import React, { useEffect, useMemo } from 'react';
-import Link from 'next/link';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import BasicInfoStep from './steps/BasicInfoStep';
 import TermsStep from './steps/TermsStep';
@@ -87,7 +86,7 @@ export default function CreateAssetForm() {
     return DocsSchema;
   }, [stepFromQuery]);
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = (values: Record<string, unknown>) => {
     console.log(values);
     router.push('/my-assets');
   };
@@ -117,7 +116,7 @@ export default function CreateAssetForm() {
             {(formik) => (
               <Form className="space-y-6">
           {stepFromQuery === 'basic' && (
-            <BasicInfoStep formik={formik as any} onContinue={() => {
+            <BasicInfoStep formik={formik} onContinue={() => {
               formik.validateForm().then((errs) => {
                 const hasErrors = Object.keys(errs).length > 0;
                 if (!hasErrors) goTo(stepIndex + 1);
@@ -129,7 +128,7 @@ export default function CreateAssetForm() {
           )}
 
           {stepFromQuery === 'terms' && (
-            <TermsStep formik={formik as any} onContinue={() => {
+            <TermsStep formik={formik} onContinue={() => {
               formik.validateForm().then((errs) => {
                 const hasErrors = Object.keys(errs).length > 0;
                 if (!hasErrors) goTo(stepIndex + 1);
@@ -141,7 +140,7 @@ export default function CreateAssetForm() {
           )}
 
           {stepFromQuery === 'docs' && (
-            <DocumentsStep formik={formik as any} />
+            <DocumentsStep formik={formik} />
           )}
               </Form>
             )}

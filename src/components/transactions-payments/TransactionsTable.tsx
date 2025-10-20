@@ -40,7 +40,7 @@ export default function TransactionsTable({ searchQuery, filters, currentPage, o
     const q = searchQuery.toLowerCase();
     return mock.filter((r) => {
       const matchesSearch = !q || r.txId.toLowerCase().includes(q) || r.investor.toLowerCase().includes(q) || r.asset.toLowerCase().includes(q);
-      const matchesMethod = filters.method === 'all' || r.method === (filters.method as any);
+      const matchesMethod = filters.method === 'all' || r.method === filters.method;
       const matchesStatus = filters.status === 'all' || r.status.toLowerCase() === filters.status.toLowerCase();
       return matchesSearch && matchesMethod && matchesStatus;
     });
@@ -51,12 +51,24 @@ export default function TransactionsTable({ searchQuery, filters, currentPage, o
   const start = (currentPage - 1) * itemsPerPage;
   const pageRows = filtered.slice(start, start + itemsPerPage);
 
-  React.useEffect(() => { onTotalPagesChange && onTotalPagesChange(totalPages); }, [totalPages, onTotalPagesChange]);
+  React.useEffect(() => { 
+    if (onTotalPagesChange) {
+      onTotalPagesChange(totalPages);
+    }
+  }, [totalPages, onTotalPagesChange]);
 
   const allSelected = pageRows.length > 0 && pageRows.every((r) => selected.has(r.id));
   const someSelected = pageRows.some((r) => selected.has(r.id));
   const toggleAll = (checked: boolean) => setSelected((prev) => { const n = new Set(prev); pageRows.forEach((r) => checked ? n.add(r.id) : n.delete(r.id)); return n; });
-  const toggleOne = (id: number) => setSelected((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleOne = (id: number) => setSelected((p) => { 
+    const n = new Set(p); 
+    if (n.has(id)) {
+      n.delete(id);
+    } else {
+      n.add(id);
+    }
+    return n; 
+  });
 
   if (pageRows.length === 0) return <NoDataFound title="No transactions found" description="Try adjusting your search or filter criteria." />;
 

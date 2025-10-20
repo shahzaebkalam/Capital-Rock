@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CaretUpIcon, OceanAssetIcon, TrendingDownIcon, TrendingUpIcon } from '@/lib/icons';
+import { OceanAssetIcon, TrendingDownIcon, TrendingUpIcon } from '@/lib/icons';
 
 interface TopGainer {
   id: number;

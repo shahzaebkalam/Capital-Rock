@@ -4,6 +4,7 @@ import MainLayout from '@/app/layouts/MainLayout';
 import { useState } from 'react';
 import { SearchBar, FilterDropdown, ResetButton } from '@/components/searchbar';
 import ROISummary from '@/components/dashboard-ui/ROISummary';
+import PerformanceReport from '@/components/dashboard-ui/PerformanceReport';
 import ExportTools from '@/components/dashboard-ui/ExportTools';
 
 export default function ReportsAnalyticsPage() {
@@ -56,10 +57,10 @@ export default function ReportsAnalyticsPage() {
     <MainLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
+        <div className=" p-4">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <h1 className="text-2xl font-semibold text-black">Reports</h1>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 flex-1 lg:justify-end">
+            <div className="flex px-2 bg-white flex-col sm:flex-row sm:items-center gap-4 lg:justify-end">
               {/* Search Bar */}
               <div className="flex-1 min-w-[220px] lg:max-w-md">
                 <SearchBar
@@ -100,6 +101,7 @@ export default function ReportsAnalyticsPage() {
 
         {/* Reports Sections */}
         <div className="space-y-6">
+          <PerformanceReport />
           <ROISummary />
           <ExportTools />
         </div>

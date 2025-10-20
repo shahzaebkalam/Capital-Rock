@@ -42,41 +42,6 @@ export default function ChartsAndAnalytics() {
     ],
   };
 
-  const pieChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    rotation: 90,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleColor: '#FFFFFF',
-        bodyColor: '#FFFFFF',
-        borderColor: '#D4AF37',
-        borderWidth: 1,
-        cornerRadius: 8,
-        displayColors: true,
-        callbacks: {
-          title: function(context: any) {
-            return context[0].label;
-          },
-          label: function(context: any) {
-            const value = context.parsed;
-            return `${context.label}: ${value}%`;
-          },
-        },
-      },
-    },
-    elements: {
-      arc: {
-        borderWidth: 2,
-        borderColor: '#FFFFFF',
-      },
-    },
-  };
 
   const timeframes = [
     { key: 'W', label: 'W' },

@@ -31,8 +31,8 @@ export default function TransactionsPage() {
       <div className="space-y-6">
         {/* Header */}
         <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <h1 className="text-2xl font-semibold text-black">Transactions & Payments</h1>
+          <div className="flex flex-col lg:flex-row lg:flex-nowrap lg:items-center justify-between gap-4">
+            <h1 className="text-2xl font-semibold text-black whitespace-nowrap flex-shrink-0">Transactions & Payments</h1>
             <SearchAndFilters
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}

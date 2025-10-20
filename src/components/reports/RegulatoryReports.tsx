@@ -13,11 +13,6 @@ export default function RegulatoryReports() {
     { value: 'bafin', label: 'BaFin' }
   ];
 
-  const downloadOptions = [
-    { value: 'pdf', label: 'PDF' },
-    { value: 'csv', label: 'CSV' },
-    { value: 'xlsx', label: 'Excel' }
-  ];
 
   return (
     <ReportCard

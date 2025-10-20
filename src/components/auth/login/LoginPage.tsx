@@ -29,9 +29,6 @@ export default function LoginPage() {
     router.push('/dashboard');
   };
 
-  const handleRegister = () => {
-    router.push('/register?step=account-type');
-  };
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center px-4 py-8 sm:px-6 lg:px-8">

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { CaretUpIcon, InfoIcon, TrendingDownIcon, TrendingUpIcon } from '@/lib/icons';
+import { InfoIcon, TrendingDownIcon, TrendingUpIcon } from '@/lib/icons';
 
 export default function PortfolioSummary() {
   const summaryData = [

@@ -34,7 +34,7 @@ export default function AreaChartCard({
         label: title,
         data: values,
         borderColor: '#B58833',
-        backgroundColor: (context: any) => {
+        backgroundColor: (context: { chart: { ctx: CanvasRenderingContext2D } }) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 400);
           gradient.addColorStop(0, 'rgba(181, 136, 51, 0.8)');
@@ -44,11 +44,11 @@ export default function AreaChartCard({
         borderWidth: 3,
         fill: true,
         tension: 0.1,
-        pointBackgroundColor: (ctx: any) => (ctx.dataIndex === selectedIndex ? '#FFFFFF' : '#B58833'),
+        pointBackgroundColor: (ctx: { dataIndex: number }) => (ctx.dataIndex === selectedIndex ? '#FFFFFF' : '#B58833'),
         pointBorderColor: '#B58833',
-        pointBorderWidth: (ctx: any) => (ctx.dataIndex === selectedIndex ? 2 : 0),
-        pointRadius: (ctx: any) => (ctx.dataIndex === selectedIndex ? 5 : 0),
-        pointHoverRadius: (ctx: any) => (ctx.dataIndex === selectedIndex ? 7 : 0),
+        pointBorderWidth: (ctx: { dataIndex: number }) => (ctx.dataIndex === selectedIndex ? 2 : 0),
+        pointRadius: (ctx: { dataIndex: number }) => (ctx.dataIndex === selectedIndex ? 5 : 0),
+        pointHoverRadius: (ctx: { dataIndex: number }) => (ctx.dataIndex === selectedIndex ? 7 : 0),
       },
     ],
   }), [labels, values, selectedIndex, title]);
@@ -58,7 +58,7 @@ export default function AreaChartCard({
     afterDatasetsDraw(chart) {
       if (selectedIndex < 0) return;
       const { ctx, chartArea, scales } = chart;
-      const xScale = scales.x as any;
+      const xScale = scales.x;
       const x = xScale.getPixelForValue(selectedIndex);
       ctx.save();
       ctx.strokeStyle = '#B58833';
@@ -84,10 +84,10 @@ export default function AreaChartCard({
           options={{
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { enabled: true, backgroundColor: 'rgba(0,0,0,0.8)', titleColor: '#FFFFFF', bodyColor: '#FFFFFF', callbacks: { label: (ctx: any) => yFormatter(ctx.parsed.y) } } },
+            plugins: { legend: { display: false }, tooltip: { enabled: true, backgroundColor: 'rgba(0,0,0,0.8)', titleColor: '#FFFFFF', bodyColor: '#FFFFFF', callbacks: { label: (ctx: { parsed: { y: number | null } }) => yFormatter(ctx.parsed.y || 0) } } },
             scales: {
               x: { grid: { display: true, color: 'rgba(0,0,0,0.1)' }, ticks: { color: '#666', font: { size: 12 } }, border: { display: false } },
-              y: { beginAtZero: true, max: yMax, ticks: { color: '#666', font: { size: 12 }, callback: (v: any) => yFormatter(Number(v)) }, grid: { display: true, color: 'rgba(0,0,0,0.1)' }, border: { display: false } },
+              y: { beginAtZero: true, max: yMax, ticks: { color: '#666', font: { size: 12 }, callback: (v: string | number) => yFormatter(Number(v)) }, grid: { display: true, color: 'rgba(0,0,0,0.1)' }, border: { display: false } },
             },
             elements: { point: { borderWidth: 2 } },
             interaction: { mode: 'index', intersect: false },

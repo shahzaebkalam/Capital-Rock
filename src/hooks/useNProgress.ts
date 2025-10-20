@@ -23,12 +23,12 @@ export function useNProgress() {
     const originalForward = router.forward;
 
     // Override router methods to show progress
-    router.push = (href: string, options?: any) => {
+    router.push = (href: string, options?: { scroll?: boolean; shallow?: boolean }) => {
       NProgress.start();
       return originalPush.call(router, href, options);
     };
 
-    router.replace = (href: string, options?: any) => {
+    router.replace = (href: string, options?: { scroll?: boolean; shallow?: boolean }) => {
       NProgress.start();
       return originalReplace.call(router, href, options);
     };

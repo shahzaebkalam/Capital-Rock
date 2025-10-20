@@ -38,7 +38,7 @@ const filterOptions = {
 
 export default function SearchAndFilters({ searchQuery, onSearchChange, filters, onFilterChange, onReset }: Props) {
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4">
+    <div className="bg-white rounded-lg border border-gray-200 p-2">
       <div className="flex flex-col lg:flex-row lg:items-center gap-4">
         <div className="flex-1 min-w-0">
           <SearchBar value={searchQuery} onChange={onSearchChange} placeholder="Search..." className="w-full" />

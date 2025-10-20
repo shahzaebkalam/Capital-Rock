@@ -13,7 +13,6 @@ interface SearchBarProps {
 export default function SearchBar({ 
   value, 
   onChange, 
-  placeholder = "Search...",
   className = "w-64"
 }: SearchBarProps) {
   return (
@@ -23,8 +22,7 @@ export default function SearchBar({
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className={`pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${className}`}
+        className={`pl-10 pr-4 py-2 rounded-lg text-sm focus:outline-none focus:border-transparent ${className}`}
       />
     </div>
   );

@@ -21,7 +21,7 @@ export default function MarketStats({ assetId }: MarketStatsProps) {
       <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
         <div className="text-center py-12">
           <h1 className="text-2xl font-bold text-gray-900">Asset Not Found</h1>
-          <p className="text-gray-600 mt-2">The asset you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mt-2">The asset you&apos;re looking for doesn&apos;t exist.</p>
         </div>
       </div>
     );

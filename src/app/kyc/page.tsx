@@ -1,7 +1,12 @@
 import KycPage from '@/components/auth/kyc/KycPage';
+import { Suspense } from 'react';
 
 export default function Kyc() {
-  return <KycPage />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <KycPage />
+    </Suspense>
+  );
 }
 
 

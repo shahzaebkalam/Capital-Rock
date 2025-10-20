@@ -42,7 +42,6 @@ export default function ChartsSection() {
     [selectedTimeframe]
   );
 
-  const selectedIndex = useMemo(() => activeSeries.labels.indexOf(activeSeries.highlightLabel), [activeSeries]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -31,18 +31,6 @@ const getIconBackgroundColor = (iconType: 'ocean' | 'solar') => {
   return iconType === 'ocean' ? 'bg-blue-500' : 'bg-green-500';
 };
 
-const getRiskLevelColor = (riskLevel: 'Low' | 'Medium' | 'High') => {
-  switch (riskLevel) {
-    case 'Low':
-      return 'bg-green-50 text-green-700 border border-green-200';
-    case 'Medium':
-      return 'bg-orange-50 text-orange-700 border border-orange-200';
-    case 'High':
-      return 'bg-red-50 text-red-700 border border-red-200';
-    default:
-      return 'bg-gray-50 text-gray-700 border border-gray-200';
-  }
-};
 
 const getProgressBarColor = (riskLevel: 'Low' | 'Medium' | 'High') => {
   switch (riskLevel) {

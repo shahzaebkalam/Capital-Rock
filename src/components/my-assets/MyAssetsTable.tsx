@@ -86,7 +86,9 @@ export default function MyAssetsTable({
   const paginated = filtered.slice(startIndex, endIndex);
 
   React.useEffect(() => {
-    onTotalPagesChange && onTotalPagesChange(totalPages);
+    if (onTotalPagesChange) {
+      onTotalPagesChange(totalPages);
+    }
   }, [totalPages, onTotalPagesChange]);
 
   const allSelected =

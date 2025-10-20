@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { ChevronLeftIcon, OceanAssetIcon, SolarAssetIcon } from '@/lib/icons';
 import Button from '@/components/ui/Button';
@@ -11,7 +11,7 @@ import CurrencyDropdown from '@/components/ui/CurrencyDropdown';
 
 interface PaymentMethodStepProps {
   projectId: string;
-  projectData: any;
+  projectData: { name: string; type: string; details: { targetROI: string }; terms: { minInvestment: string; maxInvestment: string; lockupPeriod: string } };
 }
 
 interface FormValues {
@@ -58,9 +58,9 @@ export default function PaymentMethodStep({ projectId, projectData }: PaymentMet
   // Create icon based on iconType
   const getProjectIcon = () => {
     const iconClass = "w-8 h-8 text-white";
-    if (projectData.iconType === 'ocean') {
+    if (projectData.type.toLowerCase() .includes('ocean')) {
       return <OceanAssetIcon className={iconClass} />;
-    } else if (projectData.iconType === 'solar') {
+    } else if (projectData.type.toLowerCase() .includes('solar')) {
       return <SolarAssetIcon className={iconClass} />;
     }
     return <OceanAssetIcon className={iconClass} />;
@@ -68,9 +68,9 @@ export default function PaymentMethodStep({ projectId, projectData }: PaymentMet
 
   // Get background color based on iconType
   const getIconBackgroundColor = () => {
-    if (projectData.iconType === 'ocean') {
+    if (projectData.type.toLowerCase() .includes('ocean')) {
       return 'bg-blue-500';
-    } else if (projectData.iconType === 'solar') {
+    } else if (projectData.type.toLowerCase() .includes('solar')) {
       return 'bg-green-500';
     }
     return 'bg-blue-500';

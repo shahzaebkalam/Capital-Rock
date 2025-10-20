@@ -1,19 +1,6 @@
 import React from 'react';
 import { PDFIcon } from '@/lib/icons';
 
-// Icons for document types
-const XLSXIcon = ({ className }: { className?: string }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M14 2H10L8 0H2C1.45 0 1 0.45 1 1V15C1 15.55 1.45 16 2 16H14C14.55 16 15 15.55 15 15V3C15 2.45 14.55 2 14 2ZM13 14H3V2H7.59L9.59 4H13V14Z" fill="#059669"/>
-    <path d="M4 6H12V7H4V6ZM4 8H12V9H4V8ZM4 10H10V11H4V10Z" fill="#059669"/>
-  </svg>
-);
-
-const DownloadIcon = ({ className }: { className?: string }) => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M8 1V11M8 11L5 8M8 11L11 8M2 13V14C2 14.55 2.45 15 3 15H13C13.55 15 14 14.55 14 14V13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
 
 interface ProjectDocumentsProps {
   documents: Array<{

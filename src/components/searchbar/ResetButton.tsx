@@ -17,7 +17,7 @@ export default function ResetButton({
       onClick={onClick}
       className={`flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-full text-xs
         font-normal text-secondary-black transition-colors cursor-pointer
-        w-auto flex-shrink-0 self-start ${className}`}
+        w-auto flex-shrink-0 ${className}`}
     >
       <ResetIcon />
       Reset

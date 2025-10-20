@@ -13,7 +13,7 @@ interface AssetCardProps {
   iconColor: string;
 }
 
-const AssetCard = ({ title, value, change, isPositive, icon, iconColor }: AssetCardProps) => {
+const AssetCard = ({ title, value, change, isPositive, icon }: AssetCardProps) => {
   return (
     <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
       {/* Top section with icon */}

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { DownArrowIcon } from "@/lib/icons";
 
 interface FilterOption {
   value: string;
@@ -9,7 +8,7 @@ interface FilterOption {
 }
 
 interface FilterDropdownProps {
-  options: FilterOption[];
+  options: ReadonlyArray<FilterOption>;
   value?: string;
   onChange?: (value: string) => void;
   placeholder?: string;

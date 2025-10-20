@@ -43,7 +43,7 @@ export default function InvestorsTable({ searchQuery, filters, currentPage, onTo
       const matchesSearch = !q || r.name.toLowerCase().includes(q) || r.email.toLowerCase().includes(q);
       const matchesCountry = filters.country === 'all' || !filters.country || r.country === filters.country;
       const matchesPayment = filters.payment === 'all' || !filters.payment || r.payment === filters.payment;
-      const matchesKyc = filters.kyc === 'all' || !filters.kyc || r.kyc === (filters.kyc as any);
+      const matchesKyc = filters.kyc === 'all' || !filters.kyc || r.kyc === filters.kyc;
       return matchesSearch && matchesCountry && matchesPayment && matchesKyc;
     });
   }, [searchQuery, filters]);
@@ -54,7 +54,9 @@ export default function InvestorsTable({ searchQuery, filters, currentPage, onTo
   const pageRows = filtered.slice(start, start + itemsPerPage);
 
   React.useEffect(() => {
-    onTotalPagesChange && onTotalPagesChange(totalPages);
+    if (onTotalPagesChange) {
+      onTotalPagesChange(totalPages);
+    }
   }, [totalPages, onTotalPagesChange]);
 
   const allSelected = pageRows.length > 0 && pageRows.every((r) => selected.has(r.id));
@@ -69,7 +71,15 @@ export default function InvestorsTable({ searchQuery, filters, currentPage, onTo
     });
   };
 
-  const toggleOne = (id: number) => setSelected((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleOne = (id: number) => setSelected((p) => { 
+    const n = new Set(p); 
+    if (n.has(id)) {
+      n.delete(id);
+    } else {
+      n.add(id);
+    }
+    return n; 
+  });
 
   if (pageRows.length === 0) {
     return <NoDataFound title="No investors found" description="Try adjusting your search or filter criteria." />;

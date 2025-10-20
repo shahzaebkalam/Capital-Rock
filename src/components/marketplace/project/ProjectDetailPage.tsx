@@ -28,7 +28,7 @@ export default function ProjectDetailPage({ projectId }: ProjectDetailPageProps)
       <div className="max-w-7xl mx-auto p-6 bg-white font-sans">
         <div className="text-center py-12">
           <h1 className="text-2xl font-bold text-gray-900 font-sans">Project Not Found</h1>
-          <p className="text-gray-600 font-sans mt-2">The project you're looking for doesn't exist.</p>
+          <p className="text-gray-600 font-sans mt-2">The project you&apos;re looking for doesn&apos;t exist.</p>
         </div>
       </div>
     );

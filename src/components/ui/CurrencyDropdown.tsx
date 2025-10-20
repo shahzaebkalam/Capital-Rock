@@ -24,7 +24,6 @@ export default function CurrencyDropdown({
   const [selectedOption, setSelectedOption] = useState(
     value ? options.find(option => option.value === value) || null : null
   );
-  const [buttonWidth, setButtonWidth] = useState<number>(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -41,11 +40,6 @@ export default function CurrencyDropdown({
     };
   }, []);
 
-  useEffect(() => {
-    if (buttonRef.current) {
-      setButtonWidth(buttonRef.current.offsetWidth);
-    }
-  }, [isOpen]);
 
   const handleOptionSelect = (option: { value: string; label: string }) => {
     setSelectedOption(option);

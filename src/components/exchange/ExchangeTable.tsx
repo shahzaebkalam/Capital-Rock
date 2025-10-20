@@ -121,7 +121,7 @@ const mockExchangeAssets: ExchangeAsset[] = [
   }
 ];
 
-export default function ExchangeTable({ activeTab, searchTerm, categoryFilter, industryFilter, viewMode, currentPage, onTotalPagesChange }: ExchangeTableProps) {
+export default function ExchangeTable({ activeTab, searchTerm, viewMode, currentPage, onTotalPagesChange }: ExchangeTableProps) {
   const [selectedAssets, setSelectedAssets] = useState<Set<number>>(new Set());
   const itemsPerPage = 10;
 

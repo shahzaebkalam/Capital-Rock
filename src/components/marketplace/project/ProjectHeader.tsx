@@ -1,5 +1,4 @@
 import React from 'react';
-import { OceanAssetIcon } from '@/lib/icons';
 
 interface ProjectHeaderProps {
   name: string;

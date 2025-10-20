@@ -4,9 +4,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   DownArrowIcon,
-  StarIcon,
-  SearchIcon,
-  FullscreenIcon,
 } from "@/lib/icons";
 import MarketStats from "./MarketStats";
 import TradingChart from "./TradingChart";

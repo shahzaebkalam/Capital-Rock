@@ -63,12 +63,24 @@ export default function KycTable({ activeTab, searchQuery, filters, currentPage,
   const start = (currentPage - 1) * itemsPerPage;
   const pageRows = filtered.slice(start, start + itemsPerPage);
 
-  React.useEffect(() => { onTotalPagesChange && onTotalPagesChange(totalPages); }, [totalPages, onTotalPagesChange]);
+  React.useEffect(() => { 
+    if (onTotalPagesChange) {
+      onTotalPagesChange(totalPages);
+    }
+  }, [totalPages, onTotalPagesChange]);
 
   const allSelected = pageRows.length > 0 && pageRows.every((r) => selected.has(r.id));
   const someSelected = pageRows.some((r) => selected.has(r.id));
   const toggleAll = (checked: boolean) => setSelected((prev) => { const n = new Set(prev); pageRows.forEach((r) => checked ? n.add(r.id) : n.delete(r.id)); return n; });
-  const toggleOne = (id: number) => setSelected((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
+  const toggleOne = (id: number) => setSelected((p) => { 
+    const n = new Set(p); 
+    if (n.has(id)) {
+      n.delete(id);
+    } else {
+      n.add(id);
+    }
+    return n; 
+  });
 
   if (pageRows.length === 0) return <NoDataFound title="No records found" description="Try adjusting your search or filter criteria." />;
 
